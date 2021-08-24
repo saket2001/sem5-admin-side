@@ -12,7 +12,7 @@ export default function Navbar({ activeLink }) {
             {new Date().toLocaleDateString()}
           </span>
         </h2>
-        <Button>Logout</Button>
+        <Button classes="hover:bg-red-700 hover:border-red-700">Logout</Button>
       </div>
       <div className="w-full flex flex-row items-center py-2 md:py-1">
         <p className="text-xl px-2 mr-2">
