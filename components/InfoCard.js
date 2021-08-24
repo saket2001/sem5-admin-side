@@ -2,7 +2,7 @@ import React from "react";
 
 export default function InfoCard() {
   return (
-    <div className="md:w-auto w-full mx-auto my-3 grid grid-cols-2 md:grid-cols-4 p-3 bg-gray-100 rounded-lg">
+    <div className="w-full mx-auto my-3 grid grid-cols-2 md:grid-cols-4 p-3 bg-white rounded-lg shadow-md">
       <div className="flex flex-col justify-center items-center m-2 px-3 py-2">
         <h2 className="h2">20</h2>
         <p className="p md:text-xl">Active Users</p>
