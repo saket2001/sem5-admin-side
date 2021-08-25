@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Layout from "../components/Layout";
-import Sort from "../components/Sort";
-import Button from "../components/Button";
+import Layout from "../../components/Layout";
+import Sort from "../../components/Sort";
+import Button from "../../components/Button";
 import Link from "next/link";
 
 export default function users() {
@@ -57,7 +57,7 @@ export default function users() {
                   </div>
                   <div className="table-cell text-center p-2">
                     <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
-                      <Link href="/ads">Verify</Link>
+                      <Link href="/users/1213?logged=true">View</Link>
                     </Button>
                   </div>
                 </div>
