@@ -16,15 +16,37 @@ export default function Table({ heading }) {
             <div className="table-cell text-center p-2 font-medium">Name</div>
             <div className="table-cell text-center p-2 font-medium">Action</div>
           </div>
+
           <div className="table-row hover:bg-gray-200 smooth-trans ">
             <div className="table-cell text-center p-2">1</div>
             <div className="table-cell text-center p-2">Mary Shine</div>
-            <div className="table-cell justify-center p-2">
-              <Button classes="md:w-3/4 mx-auto w-auto justify-center text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
+            <div className="table-cell text-center p-2">
+              <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
                 <Link href="/ads">Verify</Link>
               </Button>
             </div>
           </div>
+
+          <div className="table-row hover:bg-gray-200 smooth-trans ">
+            <div className="table-cell text-center p-2">1</div>
+            <div className="table-cell text-center p-2">Mary Shine</div>
+            <div className="table-cell text-center p-2">
+              <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
+                <Link href="/ads">Verify</Link>
+              </Button>
+            </div>
+          </div>
+
+          <div className="table-row hover:bg-gray-200 smooth-trans ">
+            <div className="table-cell text-center p-2">1</div>
+            <div className="table-cell text-center p-2">Mary Shine</div>
+            <div className="table-cell text-center p-2">
+              <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
+                <Link href="/ads">Verify</Link>
+              </Button>
+            </div>
+          </div>
+
           <div className="table-row hover:bg-gray-200 smooth-trans ">
             <div className="table-cell text-center p-2">1</div>
             <div className="table-cell text-center p-2">Mary Shine</div>

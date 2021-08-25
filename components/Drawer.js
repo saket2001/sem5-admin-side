@@ -6,8 +6,8 @@ export default function Drawer() {
   return (
     <div className="hidden md:flex md:flex-col justify-between md:w-60 md:bg-blue-900 md:min-h-screen md:py-4 md:text-white md:shadow-lg">
       <div className="flex flex-col py-3 px-4">
-        <h2 className="text-xl p-1 text-gray-200">Welcome, Admin</h2>
-        <p className="text-3xl p-1">John Doe</p>
+        <h2 className="text-3xl p-1">John Doe</h2>
+        <p className="text-lg p-1 text-gray-200">{new Date().toDateString()}</p>
         <div className="flex flex-col justify-start py-5 mt-2">
           <p className="flex flex-row items-center text-xl my-1 p-1 py-2 rounded-md hover:bg-blue-700 smooth-trans">
             <svg
@@ -67,7 +67,7 @@ export default function Drawer() {
         </div>
       </div>
 
-      <div className="relative bottom-0">
+      <div className="relative bottom-0 py-3 px-2">
         <Button classes="transform hover:scale-95 smooth-trans">Logout</Button>
       </div>
     </div>

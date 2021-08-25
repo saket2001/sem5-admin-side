@@ -7,7 +7,7 @@ export default function Navbar({ activeLink }) {
     <div className="md:hidden flex w-full flex-col p-2 md:p-3 px-4 text-white text-sm md:text-lg bg-blue-900">
       <div className="w-full flex flex-row justify-between items-center py-2 md:py-1">
         <div className="flex flex-col">
-          <h2 className="text-2xl px-2">Welcome, John Doe</h2>
+          <h2 className="text-2xl px-2">John Doe</h2>
           <p className="text-lg text-gray-200  px-2">
             {new Date().toDateString()}
           </p>
