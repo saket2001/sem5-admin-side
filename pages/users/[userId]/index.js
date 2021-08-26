@@ -2,6 +2,48 @@ import Head from "next/head";
 import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
 import FakeInput from "../../../components/FakeInput";
+import Table from "../../../components/Table";
+
+const tableData1 = [
+  {
+    id: 1,
+    name: "A Book",
+    buttonText: "View",
+    buttonLink: "/ads",
+  },
+  {
+    id: 2,
+    name: "A Car",
+    buttonText: "View",
+    buttonLink: "/ads",
+  },
+];
+
+const tableData2 = [
+  {
+    id: 1,
+    name: "A Bike",
+    buttonText: "View",
+    buttonLink: "/ads",
+  },
+];
+
+const userData = {
+  id: 1234,
+  name: "John doe",
+  username: "@JohnD12",
+  email: "Johndoe12@gmail.com",
+  age: 30,
+  contact: "983012141",
+  location: {
+    address:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sunt ducimus ratione amet? Animi sunt corrupti temporibus alias repellendus culpa!",
+    state: "Maharashtra",
+    city: "Mumbai",
+    code: "49932",
+  },
+  status: "Verified User",
+};
 
 export default function userPage() {
   return (
@@ -29,8 +71,10 @@ export default function userPage() {
               />
             </svg>
             <div className="flex flex-col py-2">
-              <p className="text-lg text-gray-400">@JohnD12</p>
-              <h2 className="text-2xl md:text-4xl font-bold">John Doe</h2>
+              <p className="text-lg text-gray-400">{userData.username}</p>
+              <h2 className="text-2xl md:text-4xl font-bold">
+                {userData.name}
+              </h2>
               <div className="w-auto flex flex-row bg-blue-900 px-3 py-1 my-1 rounded-lg">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +90,7 @@ export default function userPage() {
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <p className="text-white text-md">Verified User</p>
+                <p className="text-white text-md">{userData.status}</p>
               </div>
             </div>
           </div>
@@ -55,18 +99,15 @@ export default function userPage() {
             <h2 className="text-2xl md:text-3xl font-semibold my-1">
               Profile Info
             </h2>
-            <FakeInput label="Name" text="John Doe" />
-            <FakeInput label="Username" text="@JohnD12" />
-            <FakeInput label="Email" text="Johndoe12@gmail.com" />
-            <FakeInput label="Age" text="30" />
-            <FakeInput label="Contact No" text="910201201" />
-            <FakeInput
-              label="Address"
-              text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sunt ducimus ratione amet? Animi sunt corrupti temporibus alias repellendus culpa!"
-            />
-            <FakeInput label="State" text="Maharashtra" />
-            <FakeInput label="City" text="Mumbai" />
-            <FakeInput label="Pin code" text="301011" />
+            <FakeInput label="Name" text={userData.name} />
+            <FakeInput label="Username" text={userData.username} />
+            <FakeInput label="Email" text={userData.email} />
+            <FakeInput label="Age" text={userData.age} />
+            <FakeInput label="Contact No" text={userData.contact} />
+            <FakeInput label="Address" text={userData.location.address} />
+            <FakeInput label="State" text={userData.location.state} />
+            <FakeInput label="City" text={userData.location.city} />
+            <FakeInput label="Pin code" text={userData.location.code} />
             {/* button grp */}
             <div className="flex flex-col md:flex-row my-1 px-2">
               <Button classes="flex flex-row items-center justify-center border-0 bg-blue-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2 ">
@@ -104,6 +145,20 @@ export default function userPage() {
                 </svg>
               </Button>
             </div>
+          </div>
+          {/* extra div */}
+          <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
+            <Table
+              heading={"Ads Posted By " + userData.name}
+              data={tableData1}
+            />
+          </div>
+          {/* extra div */}
+          <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
+            <Table
+              heading={"Posted Bought By " + userData.name}
+              data={tableData2}
+            />
           </div>
         </main>
       </Layout>

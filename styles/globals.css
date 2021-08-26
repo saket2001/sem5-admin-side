@@ -15,7 +15,7 @@
 }
 
 .card {
-    @apply flex flex-col bg-white rounded-lg text-xl p-2 px-3 shadow-md;
+    @apply flex flex-col bg-white text-xl p-2 px-3;
 }
 
 .smooth-trans {
