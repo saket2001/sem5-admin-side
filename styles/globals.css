@@ -21,3 +21,21 @@
 .smooth-trans {
     @apply transition ease-out duration-500;
 }
+
+.fade {
+    animation: fade 2s ease-out infinite;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
