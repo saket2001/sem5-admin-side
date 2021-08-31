@@ -46,8 +46,8 @@ export default function Home() {
           </div>
           <InfoCard />
           <div className="w-full grid grid-cols-1 mt-4 gap-4 md:grid-cols-2">
-            <Table heading="New Ads" data={tableData1} />
-            <Table heading="New Users" data={tableData2} />
+            <Table heading="New Users" data={tableData1} />
+            <Table heading="New Ads" data={tableData2} />
           </div>
         </main>
       </Layout>

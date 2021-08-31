@@ -30,55 +30,34 @@ const tableData2 = [
   },
 ];
 
-const userData = [
-  {
-    id: 1213,
-    name: "John doe",
-    username: "@JohnD12",
-    email: "Johndoe12@gmail.com",
-    age: 30,
-    contact: "983012141",
-    location: {
-      address:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sunt ducimus ratione amet? Animi sunt corrupti temporibus alias repellendus culpa!",
-      state: "Maharashtra",
-      city: "Mumbai",
-      code: "49932",
-    },
-    status: "Verified User",
+const userData = {
+  id: 1213,
+  name: "John doe",
+  username: "@JohnD12",
+  email: "Johndoe12@gmail.com",
+  age: 30,
+  contact: "983012141",
+  location: {
+    address:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sunt ducimus ratione amet? Animi sunt corrupti temporibus alias repellendus culpa!",
+    state: "Maharashtra",
+    city: "Mumbai",
+    code: "49932",
   },
-  {
-    id: 12344,
-    name: "John doe",
-    username: "@JohnD12",
-    email: "Johndoe12@gmail.com",
-    age: 30,
-    contact: "983012141",
-    location: {
-      address:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sunt ducimus ratione amet? Animi sunt corrupti temporibus alias repellendus culpa!",
-      state: "Maharashtra",
-      city: "Mumbai",
-      code: "49932",
-    },
-    status: "Verified User",
-  },
-];
+  status: "Verified User",
+};
 
 export default function userPage() {
-  const router = useRouter();
-  const userId = +router.query.userId;
+  // const router = useRouter();
+  // const userId = +router.query.userId;
 
-  const [loaderState, setLoaderState] = useState(true);
-  const [DataState, setDataState] = useState(false);
+  const [loaderState, setLoaderState] = useState(false);
+  // const [DataState, setDataState] = useState(false);
 
-  const selectedUser = userData.find((user) => user.id === userId);
-  console.log(selectedUser);
-
-  if (selectedUser) {
-    setDataState(selectedUser);
-    setLoaderState((prevState) => !prevState);
-  }
+  // if (selectedUser) {
+  //   setDataState(selectedUser);
+  //   setLoaderState((prevState) => !prevState);
+  // }
 
   return (
     <>
@@ -87,7 +66,6 @@ export default function userPage() {
           Loading...
         </div>
       )}
-      {}
       <div className="flex flex-col min-w-full min-h-screen bg-gray-100">
         <Head>
           <title>User Page</title>
@@ -112,9 +90,9 @@ export default function userPage() {
                 />
               </svg>
               <div className="flex flex-col py-2">
-                <p className="text-lg text-gray-400">{DataState.username}</p>
+                <p className="text-lg text-gray-400">{userData.username}</p>
                 <h2 className="text-2xl md:text-4xl font-bold">
-                  {DataState.name}
+                  {userData.name}
                 </h2>
                 <div className="w-auto flex flex-row bg-blue-900 px-3 py-1 my-1 rounded-lg">
                   <svg
@@ -131,7 +109,7 @@ export default function userPage() {
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  <p className="text-white text-md">{DataState.status} User</p>
+                  <p className="text-white text-md">{userData.status} User</p>
                 </div>
               </div>
             </div>
@@ -140,15 +118,15 @@ export default function userPage() {
               <h2 className="text-2xl md:text-3xl font-semibold my-1">
                 Profile Info
               </h2>
-              <FakeInput label="Name" text={DataState.name} />
-              <FakeInput label="Username" text={DataState.username} />
-              <FakeInput label="Email" text={DataState.email} />
-              <FakeInput label="Age" text={DataState.age} />
-              <FakeInput label="Contact No" text={DataState.contact} />
-              <FakeInput label="Address" text={DataState.location.address} />
-              <FakeInput label="State" text={DataState.location.state} />
-              <FakeInput label="City" text={DataState.location.city} />
-              <FakeInput label="Pin code" text={DataState.location.code} />
+              <FakeInput label="Name" text={userData.name} />
+              <FakeInput label="Username" text={userData.username} />
+              <FakeInput label="Email" text={userData.email} />
+              <FakeInput label="Age" text={userData.age} />
+              <FakeInput label="Contact No" text={userData.contact} />
+              <FakeInput label="Address" text={userData.location.address} />
+              <FakeInput label="State" text={userData.location.state} />
+              <FakeInput label="City" text={userData.location.city} />
+              <FakeInput label="Pin code" text={userData.location.code} />
               {/* button grp */}
               <div className="flex flex-col md:flex-row my-1 px-2">
                 <Button classes="flex flex-row items-center justify-center border-0 bg-blue-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2 ">
@@ -188,19 +166,19 @@ export default function userPage() {
               </div>
             </div>
             {/* extra div */}
-            {/* <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
-            <Table
-              heading={"Ads Posted By " + selectedUser.name}
-              data={tableData1}
-            />
-          </div> */}
+            <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
+              <Table
+                heading={"Ads Posted By " + userData.name}
+                data={tableData1}
+              />
+            </div>
             {/* extra div */}
-            {/* <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
-            <Table
-              heading={"Posted Bought By " + selectedUser.name}
-              data={tableData2}
-            />
-          </div> */}
+            <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
+              <Table
+                heading={"Posted Bought By " + userData.name}
+                data={tableData2}
+              />
+            </div>
           </main>
         </Layout>
       </div>

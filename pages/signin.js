@@ -1,7 +1,7 @@
 export default function signIn() {
   return (
-    <div className="min-w-screen min-h-screen bg-gradient-to-r from-blue-900 via-indigo-800 to-blue-200 flex flex-col justify-center items-center">
-      <div className="mx-2 py-5 px-10 flex flex-col justify-center items-center bg-white rounded-lg shadow-md">
+    <div className="min-w-screen min-h-screen bg-gradient-to-b md:bg-gradient-to-r from-blue-900 via-indigo-500 to-indigo-200 flex flex-col justify-center items-center">
+      <div className="mx-2 p-5 md:px-10 flex flex-col justify-center items-center bg-white rounded-lg shadow-md">
         <h2 className="h2">Sign In To Your Account</h2>
         <form className="w-full mt-8 space-y-6">
           <div className="rounded-md shadow-sm -space-y-px">
@@ -15,7 +15,7 @@ export default function signIn() {
                 type="email"
                 autocomplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-lg md:text-xl"
                 placeholder="Email address"
               />
             </div>
@@ -29,7 +29,7 @@ export default function signIn() {
                 type="password"
                 autocomplete="current-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 text-lg md:text-xl"
                 placeholder="Password"
               />
             </div>
