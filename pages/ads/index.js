@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Layout from "../components/Layout";
-import Sort from "../components/Sort";
-import Button from "../components/Button";
+import Layout from "../../components/Layout";
+import Sort from "../../components/Sort";
+import Button from "../../components/Button";
 import Link from "next/link";
 
 export default function ads() {

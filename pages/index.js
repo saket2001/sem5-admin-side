@@ -23,7 +23,7 @@ const tableData2 = [
     id: 1,
     name: "A Bike",
     buttonText: "View",
-    buttonLink: "/ads",
+    buttonLink: "/ads/203",
   },
 ];
 

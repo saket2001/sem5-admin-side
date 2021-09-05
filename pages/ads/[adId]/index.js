@@ -2,7 +2,8 @@ import Head from "next/head";
 import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
 import FakeInput from "../../../components/FakeInput";
-import Table from "../../../components/Table";
+import Image from "next/image";
+import dummyAdImage from "../../../public/dummyAdImage.jpg";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -31,11 +32,13 @@ const tableData2 = [
 ];
 
 const userData = {
-  id: 1213,
-  name: "John doe",
+  id: 203,
+  name: "A Book Set",
+  description:
+    "Used books containing all 8th Std textbooks. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sunt ducimus ratione amet ",
+  price: "400",
   username: "@JohnD12",
   email: "Johndoe12@gmail.com",
-  age: 30,
   contact: "983012141",
   location: {
     address:
@@ -44,10 +47,10 @@ const userData = {
     city: "Mumbai",
     code: "49932",
   },
-  status: "Verified User",
+  status: "Verified Ad",
 };
 
-export default function userPage() {
+export default function userAdPage() {
   // const router = useRouter();
   // const userId = +router.query.userId;
 
@@ -68,16 +71,16 @@ export default function userPage() {
       )}
       <div className="flex flex-col min-w-full min-h-screen bg-gray-100">
         <Head>
-          <title>User Page</title>
+          <title>User Ad Page</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Layout>
           <main className="flex flex-col px-2 my-2 text-gray-700">
             {/* upper div */}
-            <div className="flex flex-row p-5  items-center bg-white rounded shadow-md">
+            <div className="flex flex-row p-5 items-center bg-white rounded shadow-md">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-20 w-20 mx-2"
+                className="h-20 w-20 mr-2"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -86,15 +89,15 @@ export default function userPage() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
                 />
               </svg>
               <div className="flex flex-col py-2">
-                <p className="text-lg text-gray-400">{userData.username}</p>
                 <h2 className="text-2xl md:text-4xl font-bold">
                   {userData.name}
                 </h2>
-                <div className="w-auto flex flex-row bg-blue-900 px-3 py-1 my-1 rounded-lg">
+
+                <div className="flex flex-row bg-blue-900 px-3 py-1 my-1 rounded-lg">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 mr-2 text-white"
@@ -116,12 +119,51 @@ export default function userPage() {
             {/* lower div */}
             <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
               <h2 className="text-2xl md:text-3xl font-semibold my-1">
-                Profile Info
+                Ad Info
               </h2>
-              <FakeInput label="Name" text={userData.name} />
+              <FakeInput label="Ad Title" text={userData.name} />
+              <FakeInput label="Ad Description" text={userData.description} />
+              <FakeInput label="Ad Price" text={userData.price + "Rs"} />
+              <FakeInput label="Ad Images" text="" />
+              <div className="grid grid-cols-1 md:grid-cols-3 px-3 py-2">
+                <div>
+                  <Image
+                    alt="product image"
+                    src={dummyAdImage}
+                    width="270px"
+                    height="270px"
+                  />
+                </div>
+                <div>
+                  <Image
+                    alt="product image"
+                    src={dummyAdImage}
+                    width="270px"
+                    height="270px"
+                  />
+                </div>
+                <div>
+                  <Image
+                    alt="product image"
+                    src={dummyAdImage}
+                    width="270px"
+                    height="270px"
+                  />
+                </div>
+                <div>
+                  <Image
+                    alt="product image"
+                    src={dummyAdImage}
+                    width="270px"
+                    height="270px"
+                  />
+                </div>
+              </div>
+
+              <hr />
+
               <FakeInput label="Username" text={userData.username} />
               <FakeInput label="Email" text={userData.email} />
-              <FakeInput label="Age" text={userData.age} />
               <FakeInput label="Contact No" text={userData.contact} />
               <FakeInput label="Address" text={userData.location.address} />
               <FakeInput label="State" text={userData.location.state} />
@@ -130,7 +172,7 @@ export default function userPage() {
               {/* button grp */}
               <div className="flex flex-col md:flex-row my-1 px-2">
                 <Button classes="flex flex-row items-center justify-center border-0 bg-blue-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2 ">
-                  Verify User
+                  Verify Ad
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 ml-1"
@@ -164,7 +206,7 @@ export default function userPage() {
                   </svg>
                 </Button>
                 <Button classes="flex flex-row items-center justify-center border-red-900 text-red-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
-                  Delete User
+                  Delete Ad
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 ml-1"
@@ -181,20 +223,6 @@ export default function userPage() {
                   </svg>
                 </Button>
               </div>
-            </div>
-            {/* extra div */}
-            <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
-              <Table
-                heading={"Ads Posted By " + userData.name}
-                data={tableData1}
-              />
-            </div>
-            {/* extra div */}
-            <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
-              <Table
-                heading={"Posted Bought By " + userData.name}
-                data={tableData2}
-              />
             </div>
           </main>
         </Layout>
