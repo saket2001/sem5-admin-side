@@ -1,10 +1,16 @@
+import React, { useState } from "react";
 import Head from "next/head";
 import Layout from "../../components/Layout";
 import Sort from "../../components/Sort";
 import Button from "../../components/Button";
 import Link from "next/link";
 
-export default function ads() {
+export default function ads({ adsData }) {
+  const [adData, setAdsDataState] = useState(adsData);
+
+  const unVerifiedads = adData.filter((user) => user.adStatus === "unverified");
+
+  console.log(unVerifiedads);
   return (
     <div className="flex flex-col min-w-full min-h-screen bg-gray-100">
       <Head>
@@ -19,7 +25,9 @@ export default function ads() {
           <div className="card">
             <h2 className="h4 my-2">
               New and Unverified ads
-              <span className="text-base text-gray-500 mx-2">( total 1)</span>
+              <span className="text-base text-gray-500 mx-2">
+                ( total {unVerifiedads.length})
+              </span>
             </h2>
             <div className="table md:w-full py-4 px-2 border-collapse border-2 border-gray-300 text-gray-700">
               <div className="table-row-group">
@@ -43,25 +51,26 @@ export default function ads() {
                     Action
                   </div>
                 </div>
-
-                <div className="table-row hover:bg-gray-200 smooth-trans ">
-                  <div className="table-cell text-center p-2">1</div>
-                  <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900">
-                    C21023121231
+                {unVerifiedads.map((ad, i) => (
+                  <div className="table-row hover:bg-gray-200 smooth-trans ">
+                    <div className="table-cell text-center p-2">{i + 1}</div>
+                    <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900">
+                      {ad._id}
+                    </div>
+                    <div className="table-cell text-center p-2">{ad.title}</div>
+                    <div className="hidden md:table-cell text-center p-2">
+                      {ad.userName}
+                    </div>
+                    <div className="hidden md:table-cell text-center p-2 font-medium text-red-900 ">
+                      {ad.adStatus}
+                    </div>
+                    <div className="table-cell text-center p-2">
+                      <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
+                        <Link href={`/ads/${ad._id}/`}>View</Link>
+                      </Button>
+                    </div>
                   </div>
-                  <div className="table-cell text-center p-2">A Book Set</div>
-                  <div className="hidden md:table-cell text-center p-2">
-                    Mary shine
-                  </div>
-                  <div className="hidden md:table-cell text-center p-2 font-medium text-red-900 ">
-                    Unverified
-                  </div>
-                  <div className="table-cell text-center p-2">
-                    <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
-                      <Link href="/ads/1213?logged=true">View</Link>
-                    </Button>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -71,7 +80,9 @@ export default function ads() {
           <div className="card">
             <h2 className="h4 my-2">
               List Of All Ads
-              <span className="text-base text-gray-500 mx-2">( total 1 )</span>
+              <span className="text-base text-gray-500 mx-2">
+                ( total {adData.length} )
+              </span>
             </h2>
             <div className="table md:w-full py-4 px-2 border-collapse border-2 border-gray-300 text-gray-700">
               <div className="table-row-group">
@@ -95,25 +106,26 @@ export default function ads() {
                     Action
                   </div>
                 </div>
-
-                <div className="table-row hover:bg-gray-200 smooth-trans ">
-                  <div className="table-cell text-center p-2">1</div>
-                  <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900">
-                    C2102312123
+                {adData.map((ad, i) => (
+                  <div className="table-row hover:bg-gray-200 smooth-trans ">
+                    <div className="table-cell text-center p-2">{i + 1}</div>
+                    <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900">
+                      {ad._id}
+                    </div>
+                    <div className="table-cell text-center p-2">{ad.title}</div>
+                    <div className="hidden md:table-cell text-center p-2">
+                      {ad.userName}
+                    </div>
+                    <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900 ">
+                      {ad.adStatus}
+                    </div>
+                    <div className="table-cell text-center p-2">
+                      <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
+                        <Link href={`/ads/${ad._id}/`}>View</Link>
+                      </Button>
+                    </div>
                   </div>
-                  <div className="table-cell text-center p-2">A Chair</div>
-                  <div className="hidden md:table-cell text-center p-2">
-                    Mary shine
-                  </div>
-                  <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900 ">
-                    Verified
-                  </div>
-                  <div className="table-cell text-center p-2">
-                    <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
-                      <Link href="/users/1213?logged=true">View</Link>
-                    </Button>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -121,4 +133,16 @@ export default function ads() {
       </Layout>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  // fetching
+  const res = await fetch("https://bechdal-api.herokuapp.com/api/v1/ads");
+  const adsData = await res.json();
+
+  return {
+    props: {
+      adsData: adsData,
+    },
+  };
 }

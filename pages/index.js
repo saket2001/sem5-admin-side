@@ -3,31 +3,11 @@ import InfoCard from "../components/InfoCard";
 import Layout from "../components/Layout";
 import Table from "../components/Table";
 
-const tableData1 = [
-  {
-    id: 1,
-    name: "John Doe",
-    buttonText: "View",
-    buttonLink: "/users/1234",
-  },
-  {
-    id: 2,
-    name: "Marry Shine",
-    buttonText: "View",
-    buttonLink: "/users/234",
-  },
-];
-
-const tableData2 = [
-  {
-    id: 1,
-    name: "A Bike",
-    buttonText: "View",
-    buttonLink: "/ads/203",
-  },
-];
-
-export default function Home() {
+export default function Home({ userData, adsData }) {
+  const unVerifiedUsers = userData.filter(
+    (user) => user.userStatus === "unverified"
+  );
+  const unVerifiedads = adsData.filter((ad) => ad.adStatus === "unverified");
   return (
     <div className="flex flex-col min-w-full min-h-screen bg-gray-100">
       <Head>
@@ -44,13 +24,35 @@ export default function Home() {
               Here's what happening with your site today
             </p>
           </div>
-          <InfoCard />
+          <InfoCard
+            userData={userData}
+            unVerifiedUsers={unVerifiedUsers}
+            adData={adsData}
+            unVerifiedads={unVerifiedads}
+          />
           <div className="w-full grid grid-cols-1 mt-4 gap-4 md:grid-cols-2">
-            <Table heading="New Users" data={tableData1} />
-            <Table heading="New Ads" data={tableData2} />
+            <Table heading="New Users" data={unVerifiedUsers} />
+            <Table heading="New Ads" data={unVerifiedads} />
           </div>
         </main>
       </Layout>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  // fetching
+  const res1 = await fetch("https://bechdal-api.herokuapp.com/api/v1/users");
+  const userData = await res1.json();
+
+  const res2 = await fetch("https://bechdal-api.herokuapp.com/api/v1/ads");
+  const adsData = await res2.json();
+
+  return {
+    props: {
+      userData: userData,
+      adsData: adsData,
+    },
+    revalidate: 2,
+  };
 }

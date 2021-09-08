@@ -1,10 +1,20 @@
+import { useState } from "react";
 import Head from "next/head";
 import Layout from "../../components/Layout";
 import Sort from "../../components/Sort";
 import Button from "../../components/Button";
 import Link from "next/link";
 
-export default function users() {
+export default function users({ userData }) {
+  const [usersData, setUsersDataState] = useState(userData);
+
+  console.log(usersData);
+  const unVerifiedUsers = usersData.filter(
+    (user) => user.userStatus === "unverified"
+  );
+
+  console.log(unVerifiedUsers);
+
   return (
     <div className="flex flex-col min-w-full min-h-screen bg-gray-100">
       <Head>
@@ -19,8 +29,11 @@ export default function users() {
           <div className="card">
             <h2 className="h4 my-2">
               New and Unverified Users
-              <span className="text-base text-gray-500 mx-2">( total 4 )</span>
+              <span className="text-base text-gray-500 mx-2">
+                ( total {unVerifiedUsers.length} )
+              </span>
             </h2>
+            {/* table */}
             <div className="table md:w-full py-4 px-2 border-collapse border-2 border-gray-300 text-gray-700">
               <div className="table-row-group">
                 <div className="table-row border-2 border-gray-300 text-black font-medium">
@@ -44,24 +57,27 @@ export default function users() {
                   </div>
                 </div>
 
-                <div className="table-row hover:bg-gray-200 smooth-trans ">
-                  <div className="table-cell text-center p-2">1</div>
-                  <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900">
-                    C21023121231
+                {/* table row */}
+                {unVerifiedUsers.map((user, i) => (
+                  <div className="table-row hover:bg-gray-200 smooth-trans ">
+                    <div className="table-cell text-center p-2">{i + 1}</div>
+                    <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900">
+                      {user._id}
+                    </div>
+                    <div className="table-cell text-center p-2">Mary Shine</div>
+                    <div className="hidden md:table-cell text-center p-2">
+                      {user.email}
+                    </div>
+                    <div className="hidden md:table-cell text-center p-2 font-medium text-red-900 ">
+                      {user.userStatus}
+                    </div>
+                    <div className="table-cell text-center p-2">
+                      <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
+                        <Link href={`/users/${user._id}`}>View</Link>
+                      </Button>
+                    </div>
                   </div>
-                  <div className="table-cell text-center p-2">Mary Shine</div>
-                  <div className="hidden md:table-cell text-center p-2">
-                    Maryshine@gmail.com
-                  </div>
-                  <div className="hidden md:table-cell text-center p-2 font-medium text-red-900 ">
-                    Unverified
-                  </div>
-                  <div className="table-cell text-center p-2">
-                    <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
-                      <Link href="/users/1213?logged=true">View</Link>
-                    </Button>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -71,7 +87,9 @@ export default function users() {
           <div className="card">
             <h2 className="h4 my-2">
               List Of All Users
-              <span className="text-base text-gray-500 mx-2">( total 4 )</span>
+              <span className="text-base text-gray-500 mx-2">
+                ( total {usersData.length} )
+              </span>
             </h2>
             <div className="table md:w-full py-4 px-2 border-collapse border-2 border-gray-300 text-gray-700">
               <div className="table-row-group">
@@ -95,25 +113,28 @@ export default function users() {
                     Action
                   </div>
                 </div>
-
-                <div className="table-row hover:bg-gray-200 smooth-trans ">
-                  <div className="table-cell text-center p-2">1</div>
-                  <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900">
-                    C21023121231
+                {usersData.map((user, i) => (
+                  <div className="table-row hover:bg-gray-200 smooth-trans ">
+                    <div className="table-cell text-center p-2">{i + 1}</div>
+                    <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900">
+                      {user._id}
+                    </div>
+                    <div className="table-cell text-center p-2">
+                      {user.fullName}
+                    </div>
+                    <div className="hidden md:table-cell text-center p-2">
+                      {user.email}
+                    </div>
+                    <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900 ">
+                      {user.userStatus}
+                    </div>
+                    <div className="table-cell text-center p-2">
+                      <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
+                        <Link href={`/users/${user._id}/`}>View</Link>
+                      </Button>
+                    </div>
                   </div>
-                  <div className="table-cell text-center p-2">Mary Shine</div>
-                  <div className="hidden md:table-cell text-center p-2">
-                    Maryshine@gmail.com
-                  </div>
-                  <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900 ">
-                    Verified
-                  </div>
-                  <div className="table-cell text-center p-2">
-                    <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 border-blue-900 hover:text-white smooth-trans">
-                      <Link href="/users/1213?logged=true">View</Link>
-                    </Button>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -121,4 +142,16 @@ export default function users() {
       </Layout>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  // fetching
+  const res = await fetch("https://bechdal-api.herokuapp.com/api/v1/users");
+  const userData = await res.json();
+
+  return {
+    props: {
+      userData: userData,
+    },
+  };
 }
