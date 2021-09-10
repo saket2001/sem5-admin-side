@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Layout from "../../components/Layout";
-import Sort from "../../components/Sort";
+import SearchBar from "../../components/SearchBar";
 import Button from "../../components/Button";
 import Link from "next/link";
 
@@ -20,7 +20,7 @@ export default function ads({ adsData }) {
       <Layout>
         <main className="flex flex-col px-2">
           {/* new & unverified ads */}
-          <Sort />
+          <SearchBar />
 
           <div className="card">
             <h2 className="h4 my-2">
@@ -75,7 +75,7 @@ export default function ads({ adsData }) {
             </div>
           </div>
           {/* all users */}
-          <Sort />
+          <br />
 
           <div className="card">
             <h2 className="h4 my-2">

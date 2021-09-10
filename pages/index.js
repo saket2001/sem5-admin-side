@@ -16,7 +16,7 @@ export default function Home({ userData, adsData }) {
       </Head>
       <Layout activeLink="dashboard">
         <main className="flex flex-col px-2">
-          <div className="px-4 py-5 my-2 bg-white rounded-lg shadow-lg">
+          <div className="px-4 py-5 my-2 bg-white rounded-lg shadow-sm">
             <h1 className="text-3xl md:text-4xl mb-1 text-gray-900 font-semibold">
               Welcome Back Admin
             </h1>

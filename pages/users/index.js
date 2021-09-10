@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Head from "next/head";
 import Layout from "../../components/Layout";
-import Sort from "../../components/Sort";
 import Button from "../../components/Button";
 import Link from "next/link";
+import SearchBar from "../../components/SearchBar";
 
 export default function users({ userData }) {
   const [usersData, setUsersDataState] = useState(userData);
@@ -24,7 +24,7 @@ export default function users({ userData }) {
       <Layout>
         <main className="flex flex-col px-2">
           {/* new & unverified users */}
-          <Sort />
+          <SearchBar />
 
           <div className="card">
             <h2 className="h4 my-2">
@@ -82,8 +82,7 @@ export default function users({ userData }) {
             </div>
           </div>
           {/* all users */}
-          <Sort />
-
+          <br />
           <div className="card">
             <h2 className="h4 my-2">
               List Of All Users

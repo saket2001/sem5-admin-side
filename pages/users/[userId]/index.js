@@ -4,17 +4,19 @@ import Button from "../../../components/Button";
 import FakeInput from "../../../components/FakeInput";
 import Table from "../../../components/Table";
 import { useRouter } from "next/router";
+import useFetch from "../../../hooks/useFetch";
+import Loader from "../../../components/Loader";
 import { useEffect, useState } from "react";
 
 const tableData1 = [
   {
-    id: 1,
+    _id: 1222222222222222222,
     name: "A Book",
     buttonText: "View",
     buttonLink: "/ads",
   },
   {
-    id: 2,
+    _id: 2211111111111111111111,
     name: "A Car",
     buttonText: "View",
     buttonLink: "/ads",
@@ -23,180 +25,228 @@ const tableData1 = [
 
 const tableData2 = [
   {
-    id: 1,
+    _id: 1,
     name: "A Bike",
     buttonText: "View",
     buttonLink: "/ads",
   },
 ];
 
-const userData = {
-  id: 1213,
-  name: "John doe",
-  username: "@JohnD12",
-  email: "Johndoe12@gmail.com",
-  age: 30,
-  contact: "983012141",
-  location: {
-    address:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sunt ducimus ratione amet? Animi sunt corrupti temporibus alias repellendus culpa!",
-    state: "Maharashtra",
-    city: "Mumbai",
-    code: "49932",
-  },
-  status: "Verified User",
-};
-
 export default function userPage() {
-  // const router = useRouter();
-  // const userId = +router.query.userId;
+  const [loader, setLoader] = useState(true);
+  const [userData, setData] = useState(null);
 
-  const [loaderState, setLoaderState] = useState(false);
-  // const [DataState, setDataState] = useState(false);
+  const router = useRouter();
+  const userId = router.query.userId;
 
-  // if (selectedUser) {
-  //   setDataState(selectedUser);
-  //   setLoaderState((prevState) => !prevState);
-  // }
+  // start loader and fetch user detail
+  useEffect(() => {
+    const getData = async () => {
+      setLoader(true);
+      const res = await fetch(
+        `https://bechdal-api.herokuapp.com/api/v1/users/${userId}`
+      );
+
+      const data = await res.json();
+      console.log(data);
+
+      setData(data);
+
+      // turn off loader
+      setLoader(false);
+    };
+
+    getData();
+  }, [userId]);
 
   return (
     <>
-      {loaderState && (
-        <div className="w-full h-screen flex justify-center items-center text-3xl text-gray-700 font-medium fade">
-          Loading...
-        </div>
-      )}
       <div className="flex flex-col min-w-full min-h-screen bg-gray-100">
         <Head>
           <title>User Page</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Layout>
-          <main className="flex flex-col px-2 my-2 text-gray-700">
-            {/* upper div */}
-            <div className="flex flex-row p-5  items-center bg-white rounded shadow-md">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-20 w-20 mx-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <div className="flex flex-col py-2">
-                <p className="text-lg text-gray-400">{userData.username}</p>
-                <h2 className="text-2xl md:text-4xl font-bold">
-                  {userData.name}
-                </h2>
-                <div className="w-auto flex flex-row bg-blue-900 px-3 py-1 my-1 rounded-lg">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 mr-2 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <p className="text-white text-md">{userData.status}</p>
+          {loader && (
+            <div className="w-full h-screen flex justify-center items-center text-2xl text-gray-700 font-medium">
+              <Loader />
+            </div>
+          )}
+          {/* for showing error */}
+          {!loader && !userData && (
+            <div className="w-full h-full py-5 my-5 px-4 flex flex-col justify-center items-center">
+              <h2 className="text-xl md:text-4xl font-medium pb-1">
+                Oops!! No Data Found
+              </h2>
+              <p className="text-lg md:text-2xl text-gray-500">
+                Please try with correct user ID or correct link
+              </p>
+            </div>
+          )}
+          {userData && (
+            <main className="flex flex-col px-2 my-2 text-gray-700">
+              {/* upper div */}
+              <div className="flex flex-row p-5  items-center bg-white rounded shadow-md">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-20 w-20 mx-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <div className="flex flex-col py-2">
+                  <h2 className="text-2xl md:text-4xl font-bold">
+                    {userData.fullName}
+                  </h2>
+                  <div className="md:w-3/4 w-auto flex flex-row bg-blue-900 px-3 py-1 my-1 rounded-lg capitalize">
+                    {userData.userStatus === "verified" && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 mr-2 text-white"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    )}
+                    {userData.userStatus === "unverified" && (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 mr-2 text-white"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    )}
+
+                    <p className="text-white text-md">{userData.userStatus}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* lower div */}
-            <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
-              <h2 className="text-2xl md:text-3xl font-semibold my-1">
-                Profile Info
-              </h2>
-              <FakeInput label="Name" text={userData.name} />
-              <FakeInput label="Username" text={userData.username} />
-              <FakeInput label="Email" text={userData.email} />
-              <FakeInput label="Age" text={userData.age} />
-              <FakeInput label="Contact No" text={userData.contact} />
-              <FakeInput label="Address" text={userData.location.address} />
-              <FakeInput label="State" text={userData.location.state} />
-              <FakeInput label="City" text={userData.location.city} />
-              <FakeInput label="Pin code" text={userData.location.code} />
-              {/* button grp */}
-              <div className="flex flex-col md:flex-row my-1 px-2">
-                <Button classes="flex flex-row items-center justify-center border-0 bg-blue-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2 ">
-                  Verify User
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 ml-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </Button>
-                <Button classes="flex flex-row items-center justify-center border-blue-900 text-blue-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
-                  Contact via Email
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 ml-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </Button>
-                <Button classes="flex flex-row items-center justify-center border-red-900 text-red-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
-                  Delete User
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 ml-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                  </svg>
-                </Button>
+              {/* lower div */}
+              <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
+                <h2 className="text-2xl md:text-3xl font-semibold my-1">
+                  Profile Info
+                </h2>
+                <FakeInput label="Name" text={userData.fullName} />
+                <FakeInput label="Username" text={userData.username} />
+                <FakeInput label="Email" text={userData.email} />
+                <FakeInput label="Contact No" text={userData.contact} />
+                <FakeInput label="Address" text={userData.address} />
+                <FakeInput label="State" text={userData.state} />
+                <FakeInput label="City" text={userData.city} />
+                <FakeInput label="Pin code" text={userData.pinCode} />
+                {/* button grp */}
+                <div className="flex flex-col md:flex-row my-1 px-2">
+                  {userData.userStatus === "unverified" ? (
+                    <Button classes="flex flex-row items-center justify-center border-0 bg-blue-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2">
+                      Verify User
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 ml-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </Button>
+                  ) : (
+                    <Button classes="flex flex-row items-center justify-center border-0 bg-red-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2">
+                      Unverify User
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 ml-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </Button>
+                  )}
+                  <Button classes="flex flex-row items-center justify-center border-blue-900 text-blue-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
+                    Contact via Email
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 ml-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Button>
+                  <Button classes="flex flex-row items-center justify-center border-red-900 text-red-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
+                    Delete User
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 ml-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </Button>
+                </div>
               </div>
-            </div>
-            {/* extra div */}
-            <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
-              <Table
-                heading={"Ads Posted By " + userData.name}
-                data={tableData1}
-              />
-            </div>
-            {/* extra div */}
-            <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
-              <Table
-                heading={"Posted Bought By " + userData.name}
-                data={tableData2}
-              />
-            </div>
-          </main>
+              {/* extra div */}
+              <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
+                <Table
+                  heading={"Ads Posted By " + userData.name}
+                  data={tableData1}
+                />
+              </div>
+              {/* extra div */}
+              <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
+                <Table
+                  heading={"Posted Bought By " + userData.name}
+                  data={tableData2}
+                />
+              </div>
+            </main>
+          )}
         </Layout>
       </div>
     </>
