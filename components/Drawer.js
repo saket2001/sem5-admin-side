@@ -4,7 +4,7 @@ import Button from "./Button";
 
 export default function Drawer() {
   return (
-    <div className="hidden md:flex md:flex-col justify-between md:w-60 md:bg-blue-900 md:min-h-screen md:py-4 md:text-white md:shadow-lg">
+    <div className="hidden md:flex md:flex-col justify-between md:w-60 md:bg-blue-900 md:min-h-screen md:py-4 md:text-white md:shadow-lg z-0">
       <div className="flex flex-col py-3 px-4">
         <h2 className="text-3xl p-1">John Doe</h2>
         <p className="text-lg p-1 text-gray-200">{new Date().toDateString()}</p>

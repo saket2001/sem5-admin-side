@@ -114,7 +114,7 @@ export default function ads({ adsData }) {
             </div>
           )}
 
-          {!searchedData && (
+          {!searchedData && unVerifiedads.length > 0 && (
             <div className="card">
               <h2 className="h4 my-2">
                 New and Unverified ads
@@ -173,7 +173,7 @@ export default function ads({ adsData }) {
 
           {/* all users */}
           <br />
-          {!searchedData && (
+          {!searchedData && adData.length > 0 && (
             <div className="card">
               <h2 className="h4 my-2">
                 List Of All Ads
@@ -243,6 +243,7 @@ export async function getStaticProps() {
   return {
     props: {
       adsData: adsData,
+      revalidate: 5,
     },
   };
 }

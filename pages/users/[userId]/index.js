@@ -4,36 +4,14 @@ import Button from "../../../components/Button";
 import FakeInput from "../../../components/FakeInput";
 import Table from "../../../components/Table";
 import { useRouter } from "next/router";
-import useFetch from "../../../hooks/useFetch";
 import Loader from "../../../components/Loader";
 import { useEffect, useState } from "react";
-
-const tableData1 = [
-  {
-    _id: 1222222222222222222,
-    name: "A Book",
-    buttonText: "View",
-    buttonLink: "/ads",
-  },
-  {
-    _id: 2211111111111111111111,
-    name: "A Car",
-    buttonText: "View",
-    buttonLink: "/ads",
-  },
-];
-
-const tableData2 = [
-  {
-    _id: 1,
-    name: "A Bike",
-    buttonText: "View",
-    buttonLink: "/ads",
-  },
-];
+import Modal from "../../../components/Modal";
 
 export default function userPage() {
+  const [modal, setModal] = useState("");
   const [loader, setLoader] = useState(true);
+  const [modalState, setModalState] = useState(false);
   const [userData, setData] = useState(null);
 
   const router = useRouter();
@@ -59,14 +37,119 @@ export default function userPage() {
     getData();
   }, [userId]);
 
+  const closeModal = () => {
+    setModalState(false);
+  };
+
+  const confirmDelete = async () => {
+    // delete user
+    const res = await fetch(
+      `https://bechdal-api.herokuapp.com/api/v1/users/${userId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    let title = "",
+      message = "";
+
+    // check if success
+    if (res.json()) {
+      title = "Success!!";
+      message = "User deleted by admin successfully";
+    } else {
+      title = "Error !!";
+      message = "User was not deleted successfully.Try again";
+    }
+
+    // send message
+    setModal(
+      <Modal
+        title={title}
+        message={message}
+        closeModal={closeModal}
+        closeOnOk={closeModal}
+      />
+    );
+    router.push("/users");
+  };
+
+  const deleteUser = () => {
+    setModal(
+      <Modal
+        title="Confirm To delete?"
+        message="Are you sure you want to delete the following user?"
+        closeModal={closeModal}
+        closeOnOk={confirmDelete}
+      />
+    );
+    setModalState(true);
+  };
+
+  const askUpdateUser = (value) => {
+    setModal(
+      <Modal
+        title="Update User Status"
+        message={`Are you sure you want to ${
+          value === "verified" ? "verify" : "unverify"
+        } the following user?`}
+        closeModal={closeModal}
+        closeOnOk={() => {
+          updateUserStatus(value);
+        }}
+      />
+    );
+    setModalState(true);
+  };
+
+  const updateUserStatus = async (value) => {
+    // update user
+    const res = await fetch(
+      `https://bechdal-api.herokuapp.com/api/v1/users/${userId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ status: value }),
+      }
+    );
+
+    let title = "",
+      message = "";
+
+    // check if success
+    if (res.json()) {
+      title = "Success!!";
+      message = "User status updated by admin successfully";
+    } else {
+      title = "Error !!";
+      message = "User status update failed.Try again";
+    }
+
+    // send message
+    setModalState(true);
+    setModal(
+      <Modal
+        title={title}
+        message={message}
+        closeModal={closeModal}
+        closeOnOk={closeModal}
+      />
+    );
+
+    router.push("/users");
+  };
+
   return (
     <>
-      <div className="flex flex-col min-w-full min-h-screen bg-gray-100">
+      <div className="flex flex-col min-w-full min-h-screen bg-gray-100 z-0">
         <Head>
           <title>User Page</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Layout>
+          {modalState && modal}
           {loader && (
             <div className="w-full h-screen flex justify-center items-center text-2xl text-gray-700 font-medium">
               <Loader />
@@ -83,7 +166,7 @@ export default function userPage() {
               </p>
             </div>
           )}
-          {userData && (
+          {userData && !modalState && (
             <main className="flex flex-col px-2 my-2 text-gray-700">
               {/* upper div */}
               <div className="flex flex-row p-5  items-center bg-white rounded shadow-md">
@@ -159,7 +242,12 @@ export default function userPage() {
                 {/* button grp */}
                 <div className="flex flex-col md:flex-row my-1 px-2">
                   {userData.userStatus === "unverified" ? (
-                    <Button classes="flex flex-row items-center justify-center border-0 bg-blue-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2">
+                    <Button
+                      onClick={() => {
+                        askUpdateUser("verified");
+                      }}
+                      classes="flex flex-row items-center justify-center border-0 bg-blue-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2"
+                    >
                       Verify User
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -177,7 +265,12 @@ export default function userPage() {
                       </svg>
                     </Button>
                   ) : (
-                    <Button classes="flex flex-row items-center justify-center border-0 bg-red-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2">
+                    <Button
+                      onClick={() => {
+                        askUpdateUser("unverified");
+                      }}
+                      classes="flex flex-row items-center justify-center border-0 bg-red-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2"
+                    >
                       Unverify User
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +289,7 @@ export default function userPage() {
                     </Button>
                   )}
                   <Button classes="flex flex-row items-center justify-center border-blue-900 text-blue-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
-                    Contact via Email
+                    <a href={`mailto:${userData.email}`}>Contact Via Email</a>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6 ml-1"
@@ -212,7 +305,10 @@ export default function userPage() {
                       />
                     </svg>
                   </Button>
-                  <Button classes="flex flex-row items-center justify-center border-red-900 text-red-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
+                  <Button
+                    onClick={deleteUser}
+                    classes="flex flex-row items-center justify-center border-red-900 text-red-900 transform hover:scale-95 smooth-trans md:my-0 my-2"
+                  >
                     Delete User
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -232,19 +328,19 @@ export default function userPage() {
                 </div>
               </div>
               {/* extra div */}
-              <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
+              {/* <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
                 <Table
                   heading={"Ads Posted By " + userData.name}
                   data={tableData1}
                 />
-              </div>
+              </div> */}
               {/* extra div */}
-              <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
+              {/* <div className="flex flex-col p-5 my-5 bg-white rounded shadow-md">
                 <Table
                   heading={"Posted Bought By " + userData.name}
                   data={tableData2}
                 />
-              </div>
+              </div> */}
             </main>
           )}
         </Layout>

@@ -16,7 +16,7 @@ export default function SearchBar({ sendInput }) {
         type="search"
         ref={searchRef}
         onChange={getInput}
-        placeholder="Search here"
+        placeholder="Search By Name"
         className="w-full p-1 px-2 mx-1 border-0 outline-none rounded-md"
       />
       <Button

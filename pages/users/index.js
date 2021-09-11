@@ -32,7 +32,7 @@ export default function users({ userData }) {
     }
 
     // look for query in usersData array
-    const data = userData.find((data) => data.fullName === query);
+    const data = userData.find((data) => data.fullName.toLowerCase() === query);
 
     if (data) {
       // adding to redux
@@ -101,7 +101,7 @@ export default function users({ userData }) {
                       <div className="hidden md:table-cell text-center p-2">
                         {user.email}
                       </div>
-                      <div className="hidden md:table-cell text-center p-2 font-medium text-red-900 ">
+                      <div className="hidden capitalize md:table-cell text-center p-2 font-medium text-red-900 ">
                         {user.userStatus}
                       </div>
                       <div className="table-cell text-center p-2">
@@ -115,7 +115,7 @@ export default function users({ userData }) {
               </div>
             </div>
           )}
-          {!searchedData && (
+          {!searchedData && unVerifiedUsers.length > 0 && (
             <div className="card">
               <h2 className="h4 my-2">
                 New and Unverified Users
@@ -160,7 +160,7 @@ export default function users({ userData }) {
                       <div className="hidden md:table-cell text-center p-2">
                         {user.email}
                       </div>
-                      <div className="hidden md:table-cell text-center p-2 font-medium text-red-900 ">
+                      <div className="hidden md:table-cell text-center p-2 font-medium capitalize text-red-900 ">
                         {user.userStatus}
                       </div>
                       <div className="table-cell text-center p-2">
@@ -177,7 +177,7 @@ export default function users({ userData }) {
 
           {/* all users */}
           <br />
-          {!searchedData && (
+          {!searchedData && usersData.length > 0 && (
             <div className="card">
               <h2 className="h4 my-2">
                 List Of All Users
@@ -219,7 +219,7 @@ export default function users({ userData }) {
                       <div className="hidden md:table-cell text-center p-2">
                         {user.email}
                       </div>
-                      <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900 ">
+                      <div className="hidden capitalize md:table-cell text-center p-2 font-medium text-blue-900 ">
                         {user.userStatus}
                       </div>
                       <div className="table-cell text-center p-2">
@@ -247,6 +247,7 @@ export async function getStaticProps() {
   return {
     props: {
       userData: userData,
+      revalidate: 2,
     },
   };
 }

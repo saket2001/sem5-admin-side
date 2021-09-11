@@ -6,7 +6,7 @@ export default function Layout({ activeLink, children }) {
   return (
     <div className="flex flex-row w-full">
       <Drawer />
-      <div className="flex flex-col w-full md:px-2">
+      <div className="flex flex-col w-full md:px-2 z-0">
         <Navbar activeLink={activeLink} />
         {children}
       </div>

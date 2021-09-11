@@ -7,6 +7,7 @@ import dummyAdImage from "../../../public/dummyAdImage.jpg";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Loader from "../../../components/Loader";
+import Modal from "../../../components/Modal";
 
 const tableData1 = [
   {
@@ -32,26 +33,9 @@ const tableData2 = [
   },
 ];
 
-const userDataState = {
-  id: 203,
-  name: "A Book Set",
-  description:
-    "Used books containing all 8th Std textbooks. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sunt ducimus ratione amet ",
-  price: "400",
-  username: "@JohnD12",
-  email: "Johndoe12@gmail.com",
-  contact: "983012141",
-  location: {
-    address:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sunt ducimus ratione amet? Animi sunt corrupti temporibus alias repellendus culpa!",
-    state: "Maharashtra",
-    city: "Mumbai",
-    code: "49932",
-  },
-  status: "Verified Ad",
-};
-
 export default function userAdPage() {
+  const [modal, setModal] = useState("");
+  const [modalState, setModalState] = useState(false);
   const [loader, setLoader] = useState(true);
   const [DataState, setDataState] = useState(null);
 
@@ -77,7 +61,109 @@ export default function userAdPage() {
     getData();
   }, [adId]);
 
-  console.log(DataState);
+  const closeModal = () => {
+    setModalState(false);
+  };
+
+  const confirmDelete = async () => {
+    // delete user
+    const res = await fetch(
+      `https://bechdal-api.herokuapp.com/api/v1/ads/${adId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    let title = "",
+      message = "";
+
+    // check if success
+    if (res.json()) {
+      title = "Success!!";
+      message = "User Ad deleted by admin successfully";
+    } else {
+      title = "Error !!";
+      message = "User Ad was not deleted successfully.Try again";
+    }
+
+    // send message
+    setModal(
+      <Modal
+        title={title}
+        message={message}
+        closeModal={closeModal}
+        closeOnOk={closeModal}
+      />
+    );
+    router.push("/ads");
+  };
+
+  const deleteAd = () => {
+    setModal(
+      <Modal
+        title="Confirm To delete?"
+        message="Are you sure you want to delete the following ad?"
+        closeModal={closeModal}
+        closeOnOk={confirmDelete}
+      />
+    );
+    setModalState(true);
+  };
+
+  const askUpdateAd = (value) => {
+    setModal(
+      <Modal
+        title="Update Ad Status"
+        message={`Are you sure you want to ${
+          value === "verified" ? "verify" : "unverify"
+        } the following Ad?`}
+        closeModal={closeModal}
+        closeOnOk={() => {
+          updateAdStatus(value);
+        }}
+      />
+    );
+    setModalState(true);
+  };
+
+  const updateAdStatus = async (value) => {
+    // update user
+    const res = await fetch(
+      `https://bechdal-api.herokuapp.com/api/v1/ads/${adId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ status: value }),
+      }
+    );
+
+    let title = "",
+      message = "";
+
+    // check if success
+    if (res.json()) {
+      title = "Success!!";
+      message = "Ad status updated by admin successfully";
+    } else {
+      title = "Error !!";
+      message = "Ad status update failed.Try again";
+    }
+
+    // send message
+    setModalState(true);
+    setModal(
+      <Modal
+        title={title}
+        message={message}
+        closeModal={closeModal}
+        closeOnOk={closeModal}
+      />
+    );
+
+    router.push("/ads");
+  };
 
   return (
     <div className="flex flex-col min-w-full min-h-screen bg-gray-100">
@@ -86,6 +172,7 @@ export default function userAdPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
+        {modalState && modal}
         {loader && (
           <div className="w-full h-screen flex justify-center items-center text-2xl text-gray-700 font-medium">
             <Loader />
@@ -102,7 +189,7 @@ export default function userAdPage() {
             </p>
           </div>
         )}
-        {DataState && (
+        {DataState && !modalState && (
           <main className="flex flex-col px-2 my-2 text-gray-700">
             {/* upper div */}
             <div className="flex flex-row p-5 items-center bg-white rounded shadow-md">
@@ -219,7 +306,12 @@ export default function userAdPage() {
               {/* button grp */}
               <div className="flex flex-col md:flex-row my-1 px-2">
                 {DataState.adStatus === "unverified" ? (
-                  <Button classes="flex flex-row items-center justify-center border-0 bg-blue-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2">
+                  <Button
+                    onClick={() => {
+                      askUpdateAd("verified");
+                    }}
+                    classes="flex flex-row items-center justify-center border-0 bg-blue-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2"
+                  >
                     Verify Ad
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -237,7 +329,12 @@ export default function userAdPage() {
                     </svg>
                   </Button>
                 ) : (
-                  <Button classes="flex flex-row items-center justify-center border-0 bg-red-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2">
+                  <Button
+                    onClick={() => {
+                      askUpdateAd("unverified");
+                    }}
+                    classes="flex flex-row items-center justify-center border-0 bg-red-900 text-white transform hover:scale-95 smooth-trans md:my-0 my-2"
+                  >
                     Unverify Ad
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -256,7 +353,7 @@ export default function userAdPage() {
                   </Button>
                 )}
                 <Button classes="flex flex-row items-center justify-center border-blue-900 text-blue-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
-                  Contact via Email
+                  <a href={`mailto:${DataState.email}`}>Contact Via Email</a>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 ml-1"
@@ -272,7 +369,10 @@ export default function userAdPage() {
                     />
                   </svg>
                 </Button>
-                <Button classes="flex flex-row items-center justify-center border-red-900 text-red-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
+                <Button
+                  onClick={deleteAd}
+                  classes="flex flex-row items-center justify-center border-red-900 text-red-900 transform hover:scale-95 smooth-trans md:my-0 my-2"
+                >
                   Delete Ad
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
