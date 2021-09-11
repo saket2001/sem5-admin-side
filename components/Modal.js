@@ -5,11 +5,11 @@ export default function Modal({ title, message, closeModal, closeOnOk }) {
   return (
     <>
       {/* overlay */}
-      <div className="w-full h-screen bg-gray-300 fixed z-10"></div>
+      <div className="w-full h-full bg-gray-300 fixed z-10"></div>
       {/* modal div */}
-      <div className="w-full h-screen flex items-center justify-center">
+      <div className="w-full h-full flex items-center justify-center">
         {/* modal */}
-        <div className="w-1/2 space-y-2 px-4 py-3 bg-white rounded-md shadow-md flex flex-col z-20">
+        <div className="mx-2 w-auto md:w-1/2 space-y-2 px-4 py-3 bg-white rounded-md shadow-md flex flex-col z-20">
           {/* title */}
           <div className="capitalize font-medium text-gray-600 text-xl md:text-2xl border-b-2 border-blue-900 p-2">
             {title}

@@ -31,8 +31,30 @@ export default function Home({ userData, adsData }) {
             unVerifiedads={unVerifiedads}
           />
           <div className="w-full grid grid-cols-1 mt-4 gap-4 md:grid-cols-2">
-            <Table heading="New Users" data={unVerifiedUsers} />
-            <Table heading="New Ads" data={unVerifiedads} />
+            {unVerifiedUsers.length > 0 ? (
+              <Table heading="New Users" data={unVerifiedUsers} />
+            ) : (
+              <div className="px-4 py-5 my-2 bg-white rounded-lg shadow-sm">
+                <h1 className="text-3xl md:text-4xl mb-1 text-gray-900 font-semibold">
+                  No new users right now
+                </h1>
+                <p className="text-base md:text-lg text-gray-400">
+                  Will show you new users as soon as users sign up
+                </p>
+              </div>
+            )}
+            {unVerifiedads.length > 0 ? (
+              <Table heading="New Ads" data={unVerifiedads} />
+            ) : (
+              <div className="px-4 py-5 my-2 bg-white rounded-lg shadow-sm">
+                <h1 className="text-3xl md:text-4xl mb-1 text-gray-900 font-semibold">
+                  No new ads right now
+                </h1>
+                <p className="text-base md:text-lg text-gray-400">
+                  Will show you new ads as soon as users posts them
+                </p>
+              </div>
+            )}
           </div>
         </main>
       </Layout>
