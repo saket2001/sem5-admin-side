@@ -1,3 +1,4 @@
+import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,18 +7,22 @@ import Button from "./Button";
 
 export default function Drawer() {
   const dispatch = useDispatch(authActions);
+  const router = useRouter();
 
   const LoggedInData = useSelector((state) => state.auth.userData);
 
   const logoutHandler = () => {
     dispatch(authActions.updateUserData({}));
     dispatch(authActions.updateUserStatus());
+    router.replace("/");
   };
 
   return (
     <div className="hidden md:flex md:flex-col justify-between md:w-60 md:bg-blue-900 md:min-h-screen md:py-4 md:text-white md:shadow-lg z-0">
       <div className="flex flex-col py-3 px-4">
-        <h2 className="capitalize text-2xl p-1">{LoggedInData.name}</h2>
+        <h2 className="capitalize text-2xl p-1">
+          {LoggedInData ? LoggedInData.name : "User"}
+        </h2>
         <p className="text-lg p-1 text-gray-200">{new Date().toDateString()}</p>
         <div className="flex flex-col justify-start py-5 mt-2">
           <p className="flex flex-row items-center text-xl my-1 p-1 py-2 rounded-md hover:bg-blue-700 smooth-trans">

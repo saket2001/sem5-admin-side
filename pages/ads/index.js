@@ -9,6 +9,8 @@ import { searchActions } from "../../Store/Search";
 import Loader from "../../components/Loader";
 
 export default function ads({ adsData }) {
+  const isLoggedIn = useSelector((state) => state.auth.status);
+
   // get data from redux
   const dispatch = useDispatch(searchActions);
   const searchData = useSelector((state) => state.search.searchedData);
