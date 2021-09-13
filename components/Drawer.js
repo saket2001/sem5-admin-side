@@ -1,12 +1,23 @@
 import Link from "next/link";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../Store/auth";
 import Button from "./Button";
 
 export default function Drawer() {
+  const dispatch = useDispatch(authActions);
+
+  const LoggedInData = useSelector((state) => state.auth.userData);
+
+  const logoutHandler = () => {
+    dispatch(authActions.updateUserData({}));
+    dispatch(authActions.updateUserStatus());
+  };
+
   return (
     <div className="hidden md:flex md:flex-col justify-between md:w-60 md:bg-blue-900 md:min-h-screen md:py-4 md:text-white md:shadow-lg z-0">
       <div className="flex flex-col py-3 px-4">
-        <h2 className="text-3xl p-1">John Doe</h2>
+        <h2 className="capitalize text-2xl p-1">{LoggedInData.name}</h2>
         <p className="text-lg p-1 text-gray-200">{new Date().toDateString()}</p>
         <div className="flex flex-col justify-start py-5 mt-2">
           <p className="flex flex-row items-center text-xl my-1 p-1 py-2 rounded-md hover:bg-blue-700 smooth-trans">
@@ -43,9 +54,7 @@ export default function Drawer() {
                 d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
               />
             </svg>
-            <Link href={{ pathname: "/users", query: "logged=true" }}>
-              Users
-            </Link>
+            <Link href="/users">Users</Link>
           </p>
           <p className="flex flex-row items-center text-xl my-1 p-1 py-2 rounded-md hover:bg-blue-700 smooth-trans">
             <svg
@@ -62,13 +71,18 @@ export default function Drawer() {
                 d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
               />
             </svg>
-            <Link href={{ pathname: "/ads", query: "logged=true" }}>Ads</Link>
+            <Link href="/ads">Ads</Link>
           </p>
         </div>
       </div>
 
       <div className="relative bottom-0 py-3 px-2">
-        <Button classes="transform hover:scale-95 smooth-trans">Logout</Button>
+        <Button
+          classes="transform hover:scale-95 smooth-trans"
+          onClick={logoutHandler}
+        >
+          Logout
+        </Button>
       </div>
     </div>
   );
