@@ -1,17 +1,27 @@
 import Head from "next/head";
+import { useState } from "react";
 import { useSelector } from "react-redux";
+import Button from "../components/Button";
 import InfoCard from "../components/InfoCard";
 import Layout from "../components/Layout";
+import Loader from "../components/Loader";
 import SignIn from "../components/Signin";
 import Table from "../components/Table";
 
 export default function Home({ userData, adsData }) {
   const isLoggedIn = useSelector((state) => state.auth.status);
 
-  const unVerifiedUsers = userData.filter(
+  const [userDataState, setUserData] = useState(userData);
+  const [adDataState, setAdData] = useState(adsData);
+  const [loader, setLoaderState] = useState(null);
+
+  const unVerifiedUsers = userDataState.filter(
     (user) => user.userStatus === "unverified"
   );
-  const unVerifiedads = adsData.filter((ad) => ad.adStatus === "unverified");
+  const unVerifiedads = adDataState.filter(
+    (ad) => ad.adStatus === "unverified"
+  );
+
   return (
     <>
       {!isLoggedIn && <SignIn />}
@@ -22,6 +32,11 @@ export default function Home({ userData, adsData }) {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <Layout activeLink="dashboard">
+            {loader && (
+              <div className="w-full h-screen flex justify-center mt-4 text-2xl text-gray-700 font-medium">
+                <Loader />
+              </div>
+            )}
             <main className="flex flex-col px-2">
               <div className="px-4 py-5 my-2 bg-white rounded-lg shadow-sm">
                 <h1 className="text-3xl md:text-4xl mb-1 text-gray-900 font-semibold">
@@ -32,9 +47,9 @@ export default function Home({ userData, adsData }) {
                 </p>
               </div>
               <InfoCard
-                userData={userData}
+                userData={userDataState}
                 unVerifiedUsers={unVerifiedUsers}
-                adData={adsData}
+                adData={adDataState}
                 unVerifiedads={unVerifiedads}
               />
               <div className="w-full grid grid-cols-1 mt-4 gap-4 md:grid-cols-2">

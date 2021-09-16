@@ -21,6 +21,18 @@ export default function ads({ adsData }) {
   const [searchedData, setSearchedDataState] = useState(searchData);
 
   const unVerifiedads = adData.filter((user) => user.adStatus === "unverified");
+
+  const refreshPage = async () => {
+    // turn on loader
+    setLoaderState(true);
+    // fetching
+    const res = await fetch("https://bechdal-api.herokuapp.com/api/v1/ads");
+    const userData = await res.json();
+    if (userData) setAdsDataState(userData);
+    // turn off loader
+    setLoaderState(false);
+  };
+
   const searchQuery = (query) => {
     // turn on loader
     setLoaderState(true);
@@ -55,7 +67,15 @@ export default function ads({ adsData }) {
           <Layout>
             <main className="flex flex-col px-2">
               {/* new & unverified ads */}
-              <SearchBar sendInput={searchQuery} />
+              <div className="w-full flex flex-col md:flex-row md:items-center md:justify-center py-1 my-1">
+                <SearchBar sendInput={searchQuery} />
+                <Button
+                  onClick={refreshPage}
+                  classes="bg-blue-900 text-white border-0 md:py-2 smooth-trans hover:transform hover:scale-95"
+                >
+                  Refresh
+                </Button>
+              </div>
 
               {loader && (
                 <div className="w-full h-screen flex justify-center items-center text-2xl text-gray-700 font-medium">
@@ -143,9 +163,6 @@ export default function ads({ adsData }) {
                           Ad Title
                         </div>
                         <div className="hidden md:table-cell text-center p-2 font-medium">
-                          Posted By
-                        </div>
-                        <div className="hidden md:table-cell text-center p-2 font-medium">
                           Status
                         </div>
                         <div className="table-cell text-center p-2 font-medium">
@@ -162,9 +179,6 @@ export default function ads({ adsData }) {
                           </div>
                           <div className="table-cell text-center p-2">
                             {ad.title}
-                          </div>
-                          <div className="hidden md:table-cell text-center p-2">
-                            {ad.username}
                           </div>
                           <div className="hidden md:table-cell text-center p-2 font-medium text-red-900 ">
                             {ad.adStatus}
@@ -203,9 +217,7 @@ export default function ads({ adsData }) {
                         <div className="table-cell text-center p-2 font-medium">
                           Ad Title
                         </div>
-                        <div className="hidden md:table-cell text-center p-2 font-medium">
-                          Posted By
-                        </div>
+
                         <div className="hidden md:table-cell text-center p-2 font-medium">
                           Status
                         </div>
@@ -224,9 +236,7 @@ export default function ads({ adsData }) {
                           <div className="table-cell text-center p-2">
                             {ad.title}
                           </div>
-                          <div className="hidden md:table-cell text-center p-2">
-                            {ad.username}
-                          </div>
+
                           <div className="hidden md:table-cell text-center p-2 font-medium text-blue-900 ">
                             {ad.adStatus}
                           </div>
@@ -257,7 +267,7 @@ export async function getStaticProps() {
   return {
     props: {
       adsData: adsData,
-      revalidate: 5,
     },
+    revalidate: 2,
   };
 }

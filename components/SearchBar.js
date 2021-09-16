@@ -11,13 +11,13 @@ export default function SearchBar({ sendInput }) {
   };
 
   return (
-    <div className="w-full bg-white my-1 px-2 py-1 flex text-gray-600 text-lg md:text-xl rounded-lg border focus:border-blue-900 hover:border-blue-900 mb-2 shadow-sm">
+    <div className="w-ful md:w-3/4 bg-white my-1 px-2 flex text-gray-600 text-lg md:text-xl rounded-lg border focus:border-blue-900 hover:border-blue-900 shadow-sm">
       <input
         type="search"
         ref={searchRef}
         onChange={getInput}
         placeholder="Search By Name"
-        className="w-full p-1 px-2 mx-1 border-0 outline-none rounded-md"
+        className="w-full p-2 mx-1 border-0 outline-none rounded-md"
       />
       <Button
         onClick={getInput}

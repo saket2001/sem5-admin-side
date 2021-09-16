@@ -28,7 +28,7 @@ export default function Navbar({ activeLink }) {
           </p>
         </div>
         <Button
-          classes="transform hover:scale-95 smooth-trans"
+          classes="transform hover:scale-95 smooth-trans border-2 border-white"
           onClick={logoutHandler}
         >
           Logout

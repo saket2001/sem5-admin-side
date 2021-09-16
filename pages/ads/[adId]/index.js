@@ -10,30 +10,7 @@ import Loader from "../../../components/Loader";
 import Modal from "../../../components/Modal";
 import { useSelector } from "react-redux";
 import SignIn from "../../../components/Signin";
-
-const tableData1 = [
-  {
-    id: 1,
-    name: "A Book",
-    buttonText: "View",
-    buttonLink: "/ads",
-  },
-  {
-    id: 2,
-    name: "A Car",
-    buttonText: "View",
-    buttonLink: "/ads",
-  },
-];
-
-const tableData2 = [
-  {
-    id: 1,
-    name: "A Bike",
-    buttonText: "View",
-    buttonLink: "/ads",
-  },
-];
+import useDecrypt from "../../../hooks/useDecrypt";
 
 export default function userAdPage() {
   const isLoggedIn = useSelector((state) => state.auth.status);
@@ -262,6 +239,8 @@ export default function userAdPage() {
                   <h2 className="text-2xl md:text-3xl font-semibold my-1">
                     Ad Info
                   </h2>
+                  <FakeInput label="Ad ID" text={DataState._id} />
+                  <FakeInput label="Ad Category" text={DataState.category} />
                   <FakeInput label="Ad Title" text={DataState.title} />
                   <FakeInput
                     label="Ad Description"
@@ -306,10 +285,15 @@ export default function userAdPage() {
 
                   <hr />
 
-                  <FakeInput label="Username" text={DataState.username} />
-                  <FakeInput label="Email" text={DataState.email} />
-                  <FakeInput label="Contact No" text={DataState.contact} />
-                  <FakeInput label="Address" text={DataState.address} />
+                  <FakeInput
+                    label="Used Id"
+                    text={useDecrypt(DataState.userId)}
+                  />
+                  <FakeInput label="Email" text={useDecrypt(DataState.email)} />
+                  <FakeInput
+                    label="Address"
+                    text={useDecrypt(DataState.address)}
+                  />
                   <FakeInput label="State" text={DataState.state} />
                   <FakeInput label="City" text={DataState.city} />
                   <FakeInput label="Pin code" text={DataState.pinCode} />
@@ -362,8 +346,8 @@ export default function userAdPage() {
                         </svg>
                       </Button>
                     )}
-                    <Button classes="flex flex-row items-center justify-center border-blue-900 text-blue-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
-                      <a href={`mailto:${DataState.email}`}>
+                    <Button classes="flex flex-row items-center justify-center border-2 border-blue-900 text-blue-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
+                      <a href={`mailto:${useDecrypt(DataState.email)}`}>
                         Contact Via Email
                       </a>
                       <svg
@@ -383,7 +367,7 @@ export default function userAdPage() {
                     </Button>
                     <Button
                       onClick={deleteAd}
-                      classes="flex flex-row items-center justify-center border-red-900 text-red-900 transform hover:scale-95 smooth-trans md:my-0 my-2"
+                      classes="flex flex-row items-center justify-center border-2 border-red-900 text-red-900 transform hover:scale-95 smooth-trans md:my-0 my-2"
                     >
                       Delete Ad
                       <svg

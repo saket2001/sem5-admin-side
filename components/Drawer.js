@@ -40,9 +40,7 @@ export default function Drawer() {
                 d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
               />
             </svg>
-            <Link href={{ pathname: "/", query: "logged=true" }}>
-              Dashboard
-            </Link>
+            <Link href="/">Dashboard</Link>
           </p>
           <p className="flex flex-row items-center text-xl my-1 p-1 py-2 rounded-md hover:bg-blue-700 smooth-trans">
             <svg
@@ -83,7 +81,7 @@ export default function Drawer() {
 
       <div className="relative bottom-0 py-3 px-2">
         <Button
-          classes="transform hover:scale-95 smooth-trans"
+          classes="transform hover:scale-95 smooth-trans border-2 border-white"
           onClick={logoutHandler}
         >
           Logout

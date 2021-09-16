@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { searchActions } from "../../Store/Search";
 import Loader from "../../components/Loader";
 import SignIn from "../../components/Signin";
+import useDecrypt from "../../hooks/useDecrypt";
 
 export default function users({ userData }) {
   // get data from redux
@@ -23,6 +24,17 @@ export default function users({ userData }) {
   const unVerifiedUsers = usersData.filter(
     (user) => user.userStatus === "unverified"
   );
+
+  const refreshPage = async () => {
+    // turn on loader
+    setLoaderState(true);
+    // fetching
+    const res = await fetch("https://bechdal-api.herokuapp.com/api/v1/users");
+    const userData = await res.json();
+    if (userData) setUsersDataState(userData);
+    // turn off loader
+    setLoaderState(false);
+  };
 
   const searchQuery = (query) => {
     // turn on loader
@@ -58,9 +70,17 @@ export default function users({ userData }) {
           <Layout>
             <main className="flex flex-col px-2">
               {/* new & unverified users */}
-              <SearchBar sendInput={searchQuery} />
+              <div className="w-full flex flex-col md:flex-row md:items-center md:justify-center py-1 my-1">
+                <SearchBar sendInput={searchQuery} />
+                <Button
+                  onClick={refreshPage}
+                  classes="md:w-auto w-full bg-blue-900 text-white border-0 md:py-2 smooth-trans hover:transform hover:scale-95"
+                >
+                  Refresh
+                </Button>
+              </div>
               {loader && (
-                <div className="w-full h-screen flex justify-center items-center text-2xl text-gray-700 font-medium">
+                <div className="w-full h-screen flex justify-center mt-4 text-2xl text-gray-700 font-medium">
                   <Loader />
                 </div>
               )}
@@ -85,9 +105,6 @@ export default function users({ userData }) {
                           Name
                         </div>
                         <div className="hidden md:table-cell text-center p-2 font-medium">
-                          Email
-                        </div>
-                        <div className="hidden md:table-cell text-center p-2 font-medium">
                           Status
                         </div>
                         <div className="table-cell text-center p-2 font-medium">
@@ -96,7 +113,10 @@ export default function users({ userData }) {
                       </div>
 
                       {[searchedData].map((user, i) => (
-                        <div className="table-row hover:bg-gray-200 smooth-trans ">
+                        <div
+                          className="table-row hover:bg-gray-200 smooth-trans"
+                          key={user._id}
+                        >
                           <div className="table-cell text-center p-2">
                             {i + 1}
                           </div>
@@ -106,9 +126,7 @@ export default function users({ userData }) {
                           <div className="table-cell text-center p-2">
                             {user.fullName}
                           </div>
-                          <div className="hidden md:table-cell text-center p-2">
-                            {user.email}
-                          </div>
+
                           <div className="hidden capitalize md:table-cell text-center p-2 font-medium text-red-900 ">
                             {user.userStatus}
                           </div>
@@ -144,9 +162,7 @@ export default function users({ userData }) {
                         <div className="table-cell text-center p-2 font-medium">
                           Name
                         </div>
-                        <div className="hidden md:table-cell text-center p-2 font-medium">
-                          Email
-                        </div>
+
                         <div className="hidden md:table-cell text-center p-2 font-medium">
                           Status
                         </div>
@@ -157,7 +173,10 @@ export default function users({ userData }) {
 
                       {/* table row */}
                       {unVerifiedUsers.map((user, i) => (
-                        <div className="table-row hover:bg-gray-200 smooth-trans ">
+                        <div
+                          className="table-row hover:bg-gray-200 smooth-trans "
+                          key={user._id}
+                        >
                           <div className="table-cell text-center p-2">
                             {i + 1}
                           </div>
@@ -167,9 +186,7 @@ export default function users({ userData }) {
                           <div className="table-cell text-center p-2">
                             {user.fullName}
                           </div>
-                          <div className="hidden md:table-cell text-center p-2">
-                            {user.email}
-                          </div>
+
                           <div className="hidden md:table-cell text-center p-2 font-medium capitalize text-red-900 ">
                             {user.userStatus}
                           </div>
@@ -207,9 +224,7 @@ export default function users({ userData }) {
                         <div className="table-cell text-center p-2 font-medium">
                           Name
                         </div>
-                        <div className="hidden md:table-cell text-center p-2 font-medium">
-                          Email
-                        </div>
+
                         <div className="hidden md:table-cell text-center p-2 font-medium">
                           Status
                         </div>
@@ -218,7 +233,10 @@ export default function users({ userData }) {
                         </div>
                       </div>
                       {usersData.map((user, i) => (
-                        <div className="table-row hover:bg-gray-200 smooth-trans ">
+                        <div
+                          className="table-row hover:bg-gray-200 smooth-trans "
+                          key={user._id}
+                        >
                           <div className="table-cell text-center p-2">
                             {i + 1}
                           </div>
@@ -228,9 +246,7 @@ export default function users({ userData }) {
                           <div className="table-cell text-center p-2">
                             {user.fullName}
                           </div>
-                          <div className="hidden md:table-cell text-center p-2">
-                            {user.email}
-                          </div>
+
                           <div className="hidden capitalize md:table-cell text-center p-2 font-medium text-blue-900 ">
                             {user.userStatus}
                           </div>
@@ -261,7 +277,7 @@ export async function getStaticProps() {
   return {
     props: {
       userData: userData,
-      revalidate: 2,
     },
+    revalidate: 2,
   };
 }

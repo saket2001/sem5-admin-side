@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import Loader from "../../../components/Loader";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import useDecrypt from "../../../hooks/useDecrypt";
 import Modal from "../../../components/Modal";
 import SignIn from "../../../components/Signin";
 
@@ -240,11 +240,21 @@ export default function userPage() {
                   <h2 className="text-2xl md:text-3xl font-semibold my-1">
                     Profile Info
                   </h2>
+                  <FakeInput label="User Id" text={userData._id} />
                   <FakeInput label="Name" text={userData.fullName} />
-                  <FakeInput label="Username" text={userData.username} />
-                  <FakeInput label="Email" text={userData.email} />
-                  <FakeInput label="Contact No" text={userData.contact} />
-                  <FakeInput label="Address" text={userData.address} />
+                  <FakeInput
+                    label="Username"
+                    text={useDecrypt(userData.username)}
+                  />
+                  <FakeInput label="Email" text={useDecrypt(userData.email)} />
+                  <FakeInput
+                    label="Contact No"
+                    text={useDecrypt(userData.contact)}
+                  />
+                  <FakeInput
+                    label="Address"
+                    text={useDecrypt(userData.address)}
+                  />
                   <FakeInput label="State" text={userData.state} />
                   <FakeInput label="City" text={userData.city} />
                   <FakeInput label="Pin code" text={userData.pinCode} />
@@ -297,7 +307,7 @@ export default function userPage() {
                         </svg>
                       </Button>
                     )}
-                    <Button classes="flex flex-row items-center justify-center border-blue-900 text-blue-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
+                    <Button classes="flex flex-row items-center justify-center border-2 border-blue-900 text-blue-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
                       <a href={`mailto:${userData.email}`}>Contact Via Email</a>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -316,7 +326,7 @@ export default function userPage() {
                     </Button>
                     <Button
                       onClick={deleteUser}
-                      classes="flex flex-row items-center justify-center border-red-900 text-red-900 transform hover:scale-95 smooth-trans md:my-0 my-2"
+                      classes="flex flex-row items-center justify-center border-2 border-red-900 text-red-900 transform hover:scale-95 smooth-trans md:my-0 my-2"
                     >
                       Delete User
                       <svg
