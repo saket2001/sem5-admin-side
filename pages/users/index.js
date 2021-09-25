@@ -8,21 +8,24 @@ import { useSelector, useDispatch } from "react-redux";
 import { searchActions } from "../../Store/Search";
 import Loader from "../../components/Loader";
 import SignIn from "../../components/Signin";
-import useDecrypt from "../../hooks/useDecrypt";
+import { useGetAllUsersQuery } from "../../services/users";
 
 export default function users({ userData }) {
   // get data from redux
-  const isLoggedIn = useSelector((state) => state.auth.status);
-
-  const searchData = useSelector((state) => state.search.searchedData);
   const dispatch = useDispatch(searchActions);
+  const isLoggedIn = useSelector((state) => state.auth.status);
+  const searchData = useSelector((state) => state.search.searchedData);
 
   const [loader, setLoaderState] = useState(null);
   const [usersData, setUsersDataState] = useState(userData);
   const [searchedData, setSearchedDataState] = useState(searchData);
 
-  const unVerifiedUsers = usersData.filter(
+  const unVerifiedUsers = userData?.filter(
     (user) => user.userStatus === "unverified"
+  );
+
+  const verifiedUser = userData?.filter(
+    (user) => user.userStatus === "verified"
   );
 
   const refreshPage = async () => {
@@ -31,6 +34,7 @@ export default function users({ userData }) {
     // fetching
     const res = await fetch("https://bechdal-api.herokuapp.com/api/v1/users");
     const userData = await res.json();
+
     if (userData) setUsersDataState(userData);
     // turn off loader
     setLoaderState(false);
@@ -47,12 +51,14 @@ export default function users({ userData }) {
     }
 
     // look for query in usersData array
-    const data = userData.find((data) => data.fullName.toLowerCase() === query);
+    const searchResult = usersData?.find(
+      (data) => data.fullName.toLowerCase() === query
+    );
 
-    if (data) {
+    if (searchResult) {
       // adding to redux
-      dispatch(searchActions.setSearchData(data));
-      setSearchedDataState(data);
+      dispatch(searchActions.setSearchData(searchResult));
+      setSearchedDataState(searchResult);
       // turn off loader
       setLoaderState(false);
     }
@@ -61,8 +67,9 @@ export default function users({ userData }) {
   return (
     <>
       {!isLoggedIn && <SignIn />}
+
       {isLoggedIn && (
-        <div className="flex flex-col min-w-full min-h-screen bg-gray-100">
+        <div className="flex flex-col min-w-full min-h-screen overflow-hidden bg-gray-100">
           <Head>
             <title>All Users</title>
             <link rel="icon" href="/favicon.ico" />
@@ -141,12 +148,12 @@ export default function users({ userData }) {
                   </div>
                 </div>
               )}
-              {!searchedData && unVerifiedUsers.length > 0 && (
+              {!searchedData && unVerifiedUsers?.length > 0 && (
                 <div className="card">
                   <h2 className="h4 my-2">
                     New and Unverified Users
                     <span className="text-base text-gray-500 mx-2">
-                      ( total {unVerifiedUsers.length} )
+                      ( total {unVerifiedUsers?.length} )
                     </span>
                   </h2>
                   {/* table */}
@@ -204,12 +211,12 @@ export default function users({ userData }) {
 
               {/* all users */}
               <br />
-              {!searchedData && usersData.length > 0 && (
+              {!searchedData && verifiedUser?.length > 0 && (
                 <div className="card">
                   <h2 className="h4 my-2">
-                    List Of All Users
+                    List Of All Verified Users
                     <span className="text-base text-gray-500 mx-2">
-                      ( total {usersData.length} )
+                      ( total {verifiedUser?.length} )
                     </span>
                   </h2>
                   <div className="table md:w-full py-4 px-2 border-collapse border-2 border-gray-300 text-gray-700">
@@ -232,7 +239,7 @@ export default function users({ userData }) {
                           Action
                         </div>
                       </div>
-                      {usersData.map((user, i) => (
+                      {verifiedUser.map((user, i) => (
                         <div
                           className="table-row hover:bg-gray-200 smooth-trans "
                           key={user._id}

@@ -73,7 +73,7 @@ export default function signIn() {
           {modalData}
         </div>
       )}
-      <div className="min-w-screen min-h-screen bg-gradient-to-b md:bg-gradient-to-r from-blue-900 via-indigo-500 to-indigo-200 flex flex-col justify-center items-center">
+      <div className="min-w-screen min-h-screen overflow-hidden bg-gradient-to-b md:bg-gradient-to-r from-blue-900 via-indigo-500 to-indigo-200 flex flex-col justify-center items-center">
         <Head>
           <title>Admin Login</title>
           <link rel="icon" href="/favicon.ico" />

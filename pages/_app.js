@@ -6,7 +6,7 @@ import Store from "../Store/index";
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={Store}>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </Provider>
   );
 }

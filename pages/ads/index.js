@@ -20,7 +20,8 @@ export default function ads({ adsData }) {
   const [adData, setAdsDataState] = useState(adsData);
   const [searchedData, setSearchedDataState] = useState(searchData);
 
-  const unVerifiedads = adData.filter((user) => user.adStatus === "unverified");
+  const unVerifiedAds = adData.filter((user) => user.adStatus === "unverified");
+  const verifiedAds = adData.filter((user) => user.adStatus === "verified");
 
   const refreshPage = async () => {
     // turn on loader
@@ -142,12 +143,12 @@ export default function ads({ adsData }) {
                 </div>
               )}
 
-              {!searchedData && unVerifiedads.length > 0 && (
+              {!searchedData && unVerifiedAds.length > 0 && (
                 <div className="card">
                   <h2 className="h4 my-2">
                     New and Unverified ads
                     <span className="text-base text-gray-500 mx-2">
-                      ( total {unVerifiedads.length})
+                      ( total {unVerifiedAds.length})
                     </span>
                   </h2>
                   <div className="table md:w-full py-4 px-2 border-collapse border-2 border-gray-300 text-gray-700">
@@ -169,7 +170,7 @@ export default function ads({ adsData }) {
                           Action
                         </div>
                       </div>
-                      {unVerifiedads.map((ad, i) => (
+                      {unVerifiedAds.map((ad, i) => (
                         <div className="table-row hover:bg-gray-200 smooth-trans ">
                           <div className="table-cell text-center p-2">
                             {i + 1}
@@ -197,10 +198,10 @@ export default function ads({ adsData }) {
 
               {/* all users */}
               <br />
-              {!searchedData && adData.length > 0 && (
+              {!searchedData && verifiedAds.length > 0 && (
                 <div className="card">
                   <h2 className="h4 my-2">
-                    List Of All Ads
+                    List Of All Verified Ads
                     <span className="text-base text-gray-500 mx-2">
                       ( total {adData.length} )
                     </span>
@@ -225,7 +226,7 @@ export default function ads({ adsData }) {
                           Action
                         </div>
                       </div>
-                      {adData.map((ad, i) => (
+                      {verifiedAds.map((ad, i) => (
                         <div className="table-row hover:bg-gray-200 smooth-trans ">
                           <div className="table-cell text-center p-2">
                             {i + 1}

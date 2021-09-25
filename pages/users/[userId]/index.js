@@ -142,7 +142,6 @@ export default function userPage() {
         closeOnOk={closeModal}
       />
     );
-
     router.push("/users");
   };
 
@@ -195,7 +194,7 @@ export default function userPage() {
                     <h2 className="text-2xl md:text-4xl font-bold">
                       {userData.fullName}
                     </h2>
-                    <div className="md:w-3/4 w-auto flex flex-row bg-blue-900 px-3 py-1 my-1 rounded-lg capitalize">
+                    <div className=" w-full flex flex-row bg-blue-900 px-3 py-1 my-1 rounded-lg capitalize">
                       {userData.userStatus === "verified" && (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
