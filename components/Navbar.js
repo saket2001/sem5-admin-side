@@ -4,16 +4,21 @@ import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../Store/auth";
+import { useClearSessionStorage } from "react-use-window-sessionstorage";
 
 export default function Navbar({ activeLink }) {
   const dispatch = useDispatch(authActions);
   const router = useRouter();
+  const clearSessionStorage = useClearSessionStorage();
 
   const LoggedInData = useSelector((state) => state.auth.userData);
 
   const logoutHandler = () => {
     dispatch(authActions.updateUserData({}));
     dispatch(authActions.updateUserStatus());
+    // clearSessionStorage();
+    window.sessionStorage.clear();
+
     router.replace("/");
   };
   return (

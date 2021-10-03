@@ -11,8 +11,11 @@ import Modal from "../../../components/Modal";
 import { useSelector } from "react-redux";
 import SignIn from "../../../components/Signin";
 import useDecrypt from "../../../hooks/useDecrypt";
+import useSession from "../../../hooks/useSession";
+import MoneyFormatter from "../../../hooks/MoneyFormatter";
 
 export default function userAdPage() {
+  useSession();
   const isLoggedIn = useSelector((state) => state.auth.status);
 
   const [modal, setModal] = useState("");
@@ -45,6 +48,22 @@ export default function userAdPage() {
   const closeModal = () => {
     setModalState(false);
   };
+
+  let imagesArr = [];
+  if (DataState?.images)
+    imagesArr = DataState?.images?.map((img, i) => (
+      <Image
+        key={i}
+        src={`data:${img?.contentType};base64,${btoa(
+          String.fromCharCode(...new Uint8Array(img?.data.data))
+        )}`}
+        alt="product cover image"
+        width="200px"
+        height="200px"
+        layout="responsive"
+        loading="lazy"
+      />
+    ));
 
   const confirmDelete = async () => {
     // delete user
@@ -246,48 +265,23 @@ export default function userAdPage() {
                     label="Ad Description"
                     text={DataState.description}
                   />
-                  <FakeInput label="Ad Price" text={DataState.price + "Rs"} />
+                  <FakeInput
+                    label="Ad Price"
+                    text={MoneyFormatter(DataState.price, {})}
+                  />
                   <FakeInput label="Ad Images" text="" />
-                  <div className="grid grid-cols-1 md:grid-cols-3 px-3 py-2">
-                    <div>
-                      <Image
-                        alt="product image"
-                        src={dummyAdImage}
-                        width="270px"
-                        height="270px"
-                      />
-                    </div>
-                    <div>
-                      <Image
-                        alt="product image"
-                        src={dummyAdImage}
-                        width="270px"
-                        height="270px"
-                      />
-                    </div>
-                    <div>
-                      <Image
-                        alt="product image"
-                        src={dummyAdImage}
-                        width="270px"
-                        height="270px"
-                      />
-                    </div>
-                    <div>
-                      <Image
-                        alt="product image"
-                        src={dummyAdImage}
-                        width="270px"
-                        height="270px"
-                      />
-                    </div>
+                  <div className="w-3/4 grid grid-cols-1 md:grid-cols-2 gap-2 px-3 py-2">
+                    <div>{imagesArr[0]}</div>
+                    <div>{imagesArr[1]}</div>
+                    <div>{imagesArr[2]}</div>
+                    <div>{imagesArr[3]}</div>
                   </div>
 
                   <hr />
 
                   <FakeInput
                     label="Used Id"
-                    text={useDecrypt(DataState.userId)}
+                    text={useDecrypt(DataState.Username)}
                   />
                   <FakeInput label="Email" text={useDecrypt(DataState.email)} />
                   <FakeInput

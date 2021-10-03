@@ -8,9 +8,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { searchActions } from "../../Store/Search";
 import Loader from "../../components/Loader";
 import SignIn from "../../components/Signin";
-import { useGetAllUsersQuery } from "../../services/users";
+import useSession from "../../hooks/useSession";
 
 export default function users({ userData }) {
+  useSession();
   // get data from redux
   const dispatch = useDispatch(searchActions);
   const isLoggedIn = useSelector((state) => state.auth.status);

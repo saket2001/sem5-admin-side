@@ -7,8 +7,8 @@ const authSlice = createSlice({
     userData: null,
   },
   reducers: {
-    updateUserStatus(state) {
-      state.status = !state.status;
+    updateUserStatus(state, action) {
+      state.status = action.payload;
     },
     updateUserData(state, action) {
       state.userData = action.payload;

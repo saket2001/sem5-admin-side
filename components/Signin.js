@@ -45,8 +45,13 @@ export default function signIn() {
 
     // check data
     if (userData.type) {
+      console.log(userData);
       dispatch(authActions.updateUserData(userData.data));
-      dispatch(authActions.updateUserStatus());
+      dispatch(authActions.updateUserStatus(true));
+      // adding session
+      window.sessionStorage.setItem("IsLoggedIn", "true");
+      window.sessionStorage.setItem("LoggedId", userData.data.id);
+      window.sessionStorage.setItem("LoggedName", userData.data.name);
     } else {
       setLoaderState(false);
       setModalState(true);

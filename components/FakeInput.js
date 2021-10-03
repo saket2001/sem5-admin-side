@@ -8,9 +8,7 @@ export default function FakeInput(props) {
       </p>
       {props.text.length > 0 ? (
         <div className="w-auto md:w-1/2 rounded-sm bg-gray-100 shadow px-3 py-2 my-1">
-          <p className=" capitalize text-gray-600 text-lg md:text-xl">
-            {props.text}
-          </p>
+          <p className=" text-gray-600 text-lg md:text-xl">{props.text}</p>
         </div>
       ) : (
         ""

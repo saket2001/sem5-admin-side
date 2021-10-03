@@ -7,8 +7,10 @@ import Layout from "../components/Layout";
 import Loader from "../components/Loader";
 import SignIn from "../components/Signin";
 import Table from "../components/Table";
+import useSession from "../hooks/useSession";
 
 export default function Home({ userData, adsData }) {
+  useSession();
   const isLoggedIn = useSelector((state) => state.auth.status);
 
   const [userDataState, setUserData] = useState(userData);

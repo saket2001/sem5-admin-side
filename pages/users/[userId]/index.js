@@ -10,8 +10,10 @@ import { useSelector, useDispatch } from "react-redux";
 import useDecrypt from "../../../hooks/useDecrypt";
 import Modal from "../../../components/Modal";
 import SignIn from "../../../components/Signin";
+import useSession from "../../../hooks/useSession";
 
 export default function userPage() {
+  useSession();
   const isLoggedIn = useSelector((state) => state.auth.status);
 
   const [modal, setModal] = useState("");

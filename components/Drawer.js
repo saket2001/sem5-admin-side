@@ -2,18 +2,22 @@ import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useClearSessionStorage } from "react-use-window-sessionstorage";
 import { authActions } from "../Store/auth";
 import Button from "./Button";
 
 export default function Drawer() {
   const dispatch = useDispatch(authActions);
   const router = useRouter();
+  const clearSessionStorage = useClearSessionStorage();
 
   const LoggedInData = useSelector((state) => state.auth.userData);
 
   const logoutHandler = () => {
-    dispatch(authActions.updateUserData({}));
-    dispatch(authActions.updateUserStatus());
+    // clearSessionStorage();
+    window.sessionStorage.clear();
+    dispatch(authActions.updateUserData(null));
+    dispatch(authActions.updateUserStatus(false));
     router.replace("/");
   };
 
