@@ -2,13 +2,16 @@ import Link from "next/link";
 import React from "react";
 import Button from "./Button";
 
-export default function Table({ heading, data }) {
+export default function Table({ heading, data, option }) {
   const tableContent = data.map((d) => (
     <div className="table-row hover:bg-gray-200 smooth-trans ">
       <div className="truncate table-cell text-center p-1">
         {d._id.toString().slice(0, 10) + "..."}
       </div>
-      <div className="table-cell text-center p-2">{d.fullName || d.title}</div>
+      {option && <div className="table-cell text-center p-2">{d.title}</div>}
+      {!option && (
+        <div className="table-cell text-center p-2">{d.fullName}</div>
+      )}
       <div className="table-cell text-center p-2">
         <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 text-center border-blue-900 hover:text-white smooth-trans">
           <Link href={`/users/${d._id}`}>View</Link>

@@ -3,7 +3,6 @@ import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
 import FakeInput from "../../../components/FakeInput";
 import Image from "next/image";
-import dummyAdImage from "../../../public/dummyAdImage.jpg";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Loader from "../../../components/Loader";
@@ -212,11 +211,11 @@ export default function userAdPage() {
                   </svg>
                   <div className="flex flex-col py-2">
                     <h2 className="capitalize text-2xl md:text-4xl font-bold">
-                      {DataState.title}
+                      {DataState?.title}
                     </h2>
 
                     <div className="md:w-3/4 w-auto flex flex-row bg-blue-900 px-3 py-1 my-1 rounded-lg capitalize">
-                      {DataState.adStatus === "verified" && (
+                      {DataState?.adStatus === "verified" && (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-6 w-6 mr-2 text-white"
@@ -232,7 +231,7 @@ export default function userAdPage() {
                           />
                         </svg>
                       )}
-                      {DataState.adStatus === "unverified" && (
+                      {DataState?.adStatus === "unverified" && (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-6 w-6 mr-2 text-white"
@@ -249,7 +248,9 @@ export default function userAdPage() {
                         </svg>
                       )}
 
-                      <p className="text-white text-md">{DataState.adStatus}</p>
+                      <p className="text-white text-md">
+                        {DataState?.adStatus}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -258,16 +259,16 @@ export default function userAdPage() {
                   <h2 className="text-2xl md:text-3xl font-semibold my-1">
                     Ad Info
                   </h2>
-                  <FakeInput label="Ad ID" text={DataState._id} />
-                  <FakeInput label="Ad Category" text={DataState.category} />
-                  <FakeInput label="Ad Title" text={DataState.title} />
+                  <FakeInput label="Ad ID" text={DataState?._id} />
+                  <FakeInput label="Ad Category" text={DataState?.category} />
+                  <FakeInput label="Ad Title" text={DataState?.title} />
                   <FakeInput
                     label="Ad Description"
-                    text={DataState.description}
+                    text={DataState?.description}
                   />
                   <FakeInput
                     label="Ad Price"
-                    text={MoneyFormatter(DataState.price, {})}
+                    text={MoneyFormatter(DataState?.price, {})}
                   />
                   <FakeInput label="Ad Images" text="" />
                   <div className="w-3/4 grid grid-cols-1 md:grid-cols-2 gap-2 px-3 py-2">
@@ -278,22 +279,23 @@ export default function userAdPage() {
                   </div>
 
                   <hr />
-
                   <FakeInput
-                    label="Used Id"
-                    text={useDecrypt(DataState.Username)}
+                    label="User ID"
+                    text={useDecrypt(DataState?.userId)}
                   />
-                  <FakeInput label="Email" text={useDecrypt(DataState.email)} />
+                  <FakeInput label="User Name" text={DataState?.fullName} />
                   <FakeInput
                     label="Address"
-                    text={useDecrypt(DataState.address)}
+                    text={useDecrypt(DataState?.address)}
                   />
-                  <FakeInput label="State" text={DataState.state} />
-                  <FakeInput label="City" text={DataState.city} />
-                  <FakeInput label="Pin code" text={DataState.pinCode} />
+
+                  <FakeInput label="State" text={DataState?.state} />
+
+                  <FakeInput label="City" text={DataState?.city} />
+                  <FakeInput label="Pin code" text={DataState?.pinCode} />
                   {/* button grp */}
                   <div className="flex flex-col md:flex-row my-1 px-2">
-                    {DataState.adStatus === "unverified" ? (
+                    {DataState?.adStatus === "unverified" ? (
                       <Button
                         onClick={() => {
                           askUpdateAd("verified");
@@ -341,8 +343,8 @@ export default function userAdPage() {
                       </Button>
                     )}
                     <Button classes="flex flex-row items-center justify-center border-2 border-blue-900 text-blue-900 transform hover:scale-95 smooth-trans md:my-0 my-2">
-                      <a href={`mailto:${useDecrypt(DataState.email)}`}>
-                        Contact Via Email
+                      <a href={`/users/${useDecrypt(DataState.userId)}`}>
+                        View User
                       </a>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

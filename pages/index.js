@@ -68,7 +68,7 @@ export default function Home({ userData, adsData }) {
                   </div>
                 )}
                 {unVerifiedads.length > 0 ? (
-                  <Table heading="New Ads" data={unVerifiedads} />
+                  <Table heading="New Ads" data={unVerifiedads} option={true} />
                 ) : (
                   <div className="px-4 py-5 my-2 bg-white rounded-lg shadow-sm">
                     <h1 className="text-3xl md:text-4xl mb-1 text-gray-900 font-semibold">

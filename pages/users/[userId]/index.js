@@ -243,10 +243,7 @@ export default function userPage() {
                   </h2>
                   <FakeInput label="User Id" text={userData._id} />
                   <FakeInput label="Name" text={userData.fullName} />
-                  <FakeInput
-                    label="Username"
-                    text={useDecrypt(userData.username)}
-                  />
+                  <FakeInput label="Username" text={userData.username} />
                   <FakeInput label="Email" text={useDecrypt(userData.email)} />
                   <FakeInput
                     label="Contact No"
@@ -256,9 +253,12 @@ export default function userPage() {
                     label="Address"
                     text={useDecrypt(userData.address)}
                   />
-                  <FakeInput label="State" text={userData.state} />
-                  <FakeInput label="City" text={userData.city} />
-                  <FakeInput label="Pin code" text={userData.pinCode} />
+                  <FakeInput label="State" text={useDecrypt(userData.state)} />
+                  <FakeInput label="City" text={useDecrypt(userData.city)} />
+                  <FakeInput
+                    label="Pin code"
+                    text={useDecrypt(userData.pinCode)}
+                  />
                   {/* button grp */}
                   <div className="flex flex-col md:flex-row my-1 px-2">
                     {userData.userStatus === "unverified" ? (
