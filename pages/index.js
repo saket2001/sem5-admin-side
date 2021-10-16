@@ -88,7 +88,7 @@ export default function Home({ userData, adsData }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   // fetching
   const res1 = await fetch("https://bechdal-api.herokuapp.com/api/v1/users");
   const userData = await res1.json();
@@ -101,6 +101,5 @@ export async function getStaticProps() {
       userData: userData,
       adsData: adsData,
     },
-    revalidate: 2,
   };
 }

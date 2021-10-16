@@ -149,6 +149,16 @@ export default function users({ userData }) {
                   </div>
                 </div>
               )}
+              {unVerifiedUsers?.length === 0 && verifiedUser?.length === 0 && (
+                <div className="px-4 py-5 my-2 bg-white rounded-lg shadow-sm">
+                  <h1 className="text-3xl md:text-4xl mb-1 text-gray-900 font-semibold">
+                    No users found
+                  </h1>
+                  <p className="text-base md:text-lg text-gray-400">
+                    New users data will come here as new users sign up
+                  </p>
+                </div>
+              )}
               {!searchedData && unVerifiedUsers?.length > 0 && (
                 <div className="card">
                   <h2 className="h4 my-2">

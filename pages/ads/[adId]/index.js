@@ -67,7 +67,9 @@ export default function userAdPage() {
   const confirmDelete = async () => {
     // delete user
     const res = await fetch(
-      `https://bechdal-api.herokuapp.com/api/v1/ads/${adId}`,
+      `https://bechdal-api.herokuapp.com/api/v1/ads/${adId}?u_id=${useDecrypt(
+        DataState.userId
+      )}`,
       {
         method: "DELETE",
       }
@@ -269,6 +271,10 @@ export default function userAdPage() {
                   <FakeInput
                     label="Ad Price"
                     text={MoneyFormatter(DataState?.price, {})}
+                  />
+                  <FakeInput
+                    label="Ad Posted On"
+                    text={new Date(DataState?.adDate).toDateString()}
                   />
                   <FakeInput label="Ad Images" text="" />
                   <div className="w-3/4 grid grid-cols-1 md:grid-cols-2 gap-2 px-3 py-2">

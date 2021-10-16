@@ -144,7 +144,16 @@ export default function ads({ adsData }) {
                   </div>
                 </div>
               )}
-
+              {unVerifiedAds?.length === 0 && verifiedAds?.length === 0 && (
+                <div className="px-4 py-5 my-2 bg-white rounded-lg shadow-sm">
+                  <h1 className="text-3xl md:text-4xl mb-1 text-gray-900 font-semibold">
+                    No Ads found
+                  </h1>
+                  <p className="text-base md:text-lg text-gray-400">
+                    New ad data will come here as users post ads
+                  </p>
+                </div>
+              )}
               {!searchedData && unVerifiedAds.length > 0 && (
                 <div className="card">
                   <h2 className="h4 my-2">

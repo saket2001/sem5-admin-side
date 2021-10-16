@@ -14,7 +14,8 @@ export default function Table({ heading, data, option }) {
       )}
       <div className="table-cell text-center p-2">
         <Button classes="md:w-3/4 mx-auto text-blue-900 cursor-pointer border-2 hover:bg-blue-900 text-center border-blue-900 hover:text-white smooth-trans">
-          <Link href={`/users/${d._id}`}>View</Link>
+          {!option && <Link href={`/users/${d._id}`}>View</Link>}
+          {option && <Link href={`/ads/${d._id}`}>View</Link>}
         </Button>
       </div>
     </div>
