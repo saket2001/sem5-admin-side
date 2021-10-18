@@ -90,7 +90,7 @@ export default function ads({ adsData }) {
                   <h2 className="h4 my-2">
                     Searched User
                     <span className="text-base text-gray-500 mx-2">
-                      ( total {unVerifiedads.length} )
+                      ( total {unVerifiedAds.length} )
                     </span>
                   </h2>
                   <div className="table md:w-full py-4 px-2 border-collapse border-2 border-gray-300 text-gray-700">
@@ -104,9 +104,6 @@ export default function ads({ adsData }) {
                         </div>
                         <div className="table-cell text-center p-2 font-medium">
                           Name
-                        </div>
-                        <div className="hidden md:table-cell text-center p-2 font-medium">
-                          Email
                         </div>
                         <div className="hidden md:table-cell text-center p-2 font-medium">
                           Status
@@ -126,9 +123,6 @@ export default function ads({ adsData }) {
                           </div>
                           <div className="table-cell text-center p-2">
                             {ad.title}
-                          </div>
-                          <div className="hidden md:table-cell text-center p-2">
-                            {ad.username}
                           </div>
                           <div className="hidden md:table-cell text-center p-2 font-medium text-red-900 ">
                             {ad.adStatus}
