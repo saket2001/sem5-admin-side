@@ -5,6 +5,7 @@ const authSlice = createSlice({
   initialState: {
     status: null, // for logged in or not
     userData: null,
+    token: null,
   },
   reducers: {
     updateUserStatus(state, action) {
@@ -12,6 +13,9 @@ const authSlice = createSlice({
     },
     updateUserData(state, action) {
       state.userData = action.payload;
+    },
+    updateToken(state, action) {
+      state.token = action.payload;
     },
   },
 });

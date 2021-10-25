@@ -15,6 +15,7 @@ import useSession from "../../../hooks/useSession";
 export default function userPage() {
   useSession();
   const isLoggedIn = useSelector((state) => state.auth.status);
+  const token = useSelector((state) => state.auth.token);
 
   const [modal, setModal] = useState("");
   const [loader, setLoader] = useState(true);
@@ -29,7 +30,12 @@ export default function userPage() {
     const getData = async () => {
       setLoader(true);
       const res = await fetch(
-        `https://bechdal-api.herokuapp.com/api/v1/users/${userId}`
+        `https://bechdal-api.herokuapp.com/api/v1/users/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       const data = await res.json();
@@ -54,6 +60,9 @@ export default function userPage() {
       `https://bechdal-api.herokuapp.com/api/v1/users/${userId}`,
       {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
 
@@ -117,6 +126,7 @@ export default function userPage() {
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ status: value }),
       }

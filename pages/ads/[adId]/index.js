@@ -16,6 +16,7 @@ import MoneyFormatter from "../../../hooks/MoneyFormatter";
 export default function userAdPage() {
   useSession();
   const isLoggedIn = useSelector((state) => state.auth.status);
+  const token = useSelector((state) => state.auth.token);
 
   const [modal, setModal] = useState("");
   const [modalState, setModalState] = useState(false);
@@ -72,6 +73,9 @@ export default function userAdPage() {
       )}`,
       {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
 
@@ -135,6 +139,7 @@ export default function userAdPage() {
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ status: value }),
       }

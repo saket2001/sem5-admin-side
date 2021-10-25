@@ -45,13 +45,14 @@ export default function signIn() {
 
     // check data
     if (userData.type) {
-      console.log(userData);
       dispatch(authActions.updateUserData(userData.data));
       dispatch(authActions.updateUserStatus(true));
+      dispatch(authActions.updateToken(userData.token));
       // adding session
       window.sessionStorage.setItem("IsLoggedIn", "true");
       window.sessionStorage.setItem("LoggedId", userData.data.id);
       window.sessionStorage.setItem("LoggedName", userData.data.name);
+      window.sessionStorage.setItem("token", userData.token);
     } else {
       setLoaderState(false);
       setModalState(true);
