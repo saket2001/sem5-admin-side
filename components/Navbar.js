@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "./Button";
 import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
@@ -6,12 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../Store/auth";
 import { useClearSessionStorage } from "react-use-window-sessionstorage";
 
-export default function Navbar({ activeLink }) {
+export default function Navbar() {
   const dispatch = useDispatch(authActions);
   const router = useRouter();
   const clearSessionStorage = useClearSessionStorage();
 
   const LoggedInData = useSelector((state) => state.auth.userData);
+
+  useEffect(() => {
+    setTimeout(() => {
+      logoutHandler();
+    }, 60 * 60 * 20);
+  });
 
   const logoutHandler = () => {
     dispatch(authActions.updateUserData({}));
@@ -39,8 +45,8 @@ export default function Navbar({ activeLink }) {
           Logout
         </Button>
       </div>
-      <div className="w-full flex flex-row items-center py-2 md:py-1 ">
-        <p className="flex flex-row items-center text-xl mx-1 p-2 rounded-md hover:bg-blue-700 smooth-trans">
+      <div className="w-full grid grid-cols-2 items-center justify-center py-2 md:py-1 ">
+        <p className="flex flex-row items-center text-lg mx-1 p-2 rounded-md hover:bg-blue-700 smooth-trans">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6 mr-1"
@@ -57,7 +63,7 @@ export default function Navbar({ activeLink }) {
           </svg>
           <Link href="/">Dashboard</Link>
         </p>
-        <p className="flex flex-row items-center text-xl mx-1 p-2  rounded-md hover:bg-blue-700 smooth-trans">
+        <p className="flex flex-row items-center text-lg mx-1 p-2  rounded-md hover:bg-blue-700 smooth-trans">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6 mr-1"
@@ -74,7 +80,7 @@ export default function Navbar({ activeLink }) {
           </svg>
           <Link href="/users">Users</Link>
         </p>
-        <p className="flex flex-row items-center text-xl mx-1 p-2 rounded-md hover:bg-blue-700 smooth-trans">
+        <p className="flex flex-row items-center text-lg mx-1 p-2 rounded-md hover:bg-blue-700 smooth-trans">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6 mr-1"
@@ -90,6 +96,23 @@ export default function Navbar({ activeLink }) {
             />
           </svg>
           <Link href="/ads">Ads</Link>
+        </p>
+        <p className="flex flex-row items-center text-lg mx-1 p-2 rounded-md hover:bg-blue-700 smooth-trans">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 mr-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+            />
+          </svg>
+          <Link href="/contact">Contact Forms</Link>
         </p>
       </div>
     </div>

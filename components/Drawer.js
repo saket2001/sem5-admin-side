@@ -1,6 +1,6 @@
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useClearSessionStorage } from "react-use-window-sessionstorage";
 import { authActions } from "../Store/auth";
@@ -20,6 +20,11 @@ export default function Drawer() {
     dispatch(authActions.updateUserStatus(false));
     router.replace("/");
   };
+  useEffect(() => {
+    setTimeout(() => {
+      logoutHandler();
+    }, 60 * 60 * 20);
+  });
 
   return (
     <div className="hidden md:flex md:flex-col justify-between md:w-60 md:bg-blue-900 md:min-h-screen md:py-4 md:text-white md:shadow-lg z-0">
@@ -79,6 +84,23 @@ export default function Drawer() {
               />
             </svg>
             <Link href="/ads">Ads</Link>
+          </p>
+          <p className="flex flex-row items-center text-xl my-1 p-1 py-2 rounded-md hover:bg-blue-700 smooth-trans">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+              />
+            </svg>
+            <Link href="/contact">Contact Forms</Link>
           </p>
         </div>
       </div>
