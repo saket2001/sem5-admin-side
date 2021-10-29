@@ -16,7 +16,7 @@ export default function Navbar() {
   useEffect(() => {
     setTimeout(() => {
       logoutHandler();
-    }, 60 * 60 * 20);
+    }, 1000 * 60 * 20);
   });
 
   const logoutHandler = () => {
