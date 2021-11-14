@@ -1,8 +1,9 @@
 import Head from "next/head";
+import Image from "next/image";
 import Layout from "../../../components/Layout";
 import Button from "../../../components/Button";
 import FakeInput from "../../../components/FakeInput";
-import Table from "../../../components/Table";
+// import Table from "../../../components/Table";
 import { useRouter } from "next/router";
 import Loader from "../../../components/Loader";
 import { useEffect, useState } from "react";
@@ -11,6 +12,7 @@ import useDecrypt from "../../../hooks/useDecrypt";
 import Modal from "../../../components/Modal";
 import SignIn from "../../../components/Signin";
 import useSession from "../../../hooks/useSession";
+import btoa from "btoa";
 
 export default function userPage() {
   useSession();
@@ -39,7 +41,6 @@ export default function userPage() {
       );
 
       const data = await res.json();
-      console.log(data);
 
       setData(data);
 
@@ -53,6 +54,14 @@ export default function userPage() {
   const closeModal = () => {
     setModalState(false);
   };
+
+  let imagesArr = [];
+  if (userData?.userImage[0])
+    imagesArr.push(
+      `data:${userData?.userImage[0]?.contentType};base64,${btoa(
+        Buffer.from(userData?.userImage[0]?.data.data)
+      )}`
+    );
 
   const confirmDelete = async () => {
     // delete user
@@ -188,20 +197,23 @@ export default function userPage() {
               <main className="flex flex-col px-2 my-2 text-gray-700">
                 {/* upper div */}
                 <div className="flex flex-row p-5  items-center bg-white rounded shadow-md">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-20 w-20 mx-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
+                  {/* image div */}
+                  <div className="flex mx-4 items-center">
+                    {userData?.userImage && imagesArr.length > 0 && (
+                      <Image
+                        src={imagesArr[0]}
+                        alt="user profile image"
+                        width="200px"
+                        height="200px"
+                        className="rounded-full"
+                      />
+                    )}
+                    {imagesArr.length === 0 && (
+                      <div className="flex items-center justify-center w-32 h-32 rounded-full bg-gray-400 text-4xl capitalize text-white font-semibold">{`${
+                        userData.fullName.split(" ")[0][0]
+                      } ${userData.fullName.split(" ")[1][0]}`}</div>
+                    )}
+                  </div>
                   <div className="flex flex-col py-2">
                     <h2 className="text-2xl md:text-4xl font-bold">
                       {userData.fullName}
